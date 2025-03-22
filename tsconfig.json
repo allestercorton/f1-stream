@@ -1,0 +1,12 @@
+{
+  "compilerOptions": {
+    "target": "ESNext",
+    "module": "CommonJS",
+    "outDir": "dist",
+    "rootDir": "backend",
+    "strict": true,
+    "esModuleInterop": true
+  },
+  "include": ["backend"],
+  "exclude": ["node_modules"]
+}

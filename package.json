@@ -1,0 +1,43 @@
+{
+  "name": "f1-stream",
+  "version": "0.1.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "tsx watch backend/server.ts",
+    "build": "tsc",
+    "start": "node dist/server.js",
+    "lint": "eslint . --ext .ts",
+    "token": "node -e \"console.log(require('crypto').randomBytes(64).toString('hex'));\"",
+    "seed": "node backend/seed/seeder.ts"
+  },
+  "keywords": [],
+  "author": "Allester Corton",
+  "license": "MIT",
+  "type": "module",
+  "dependencies": {
+    "@typegoose/typegoose": "^12.13.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "express-async-handler": "^1.2.0",
+    "http-errors": "^2.0.0",
+    "mongoose": "^8.12.2",
+    "morgan": "^1.10.0",
+    "zod": "^3.24.2"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.17",
+    "@types/express": "^5.0.1",
+    "@types/morgan": "^1.9.9",
+    "@types/node": "^22.13.11",
+    "@typescript-eslint/eslint-plugin": "^8.27.0",
+    "@typescript-eslint/parser": "^8.27.0",
+    "eslint": "^9.23.0",
+    "eslint-config-prettier": "^10.1.1",
+    "eslint-plugin-prettier": "^5.2.3",
+    "prettier": "^3.5.3",
+    "tsx": "^4.19.3",
+    "typescript": "^5.8.2"
+  }
+}
