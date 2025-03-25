@@ -5,7 +5,8 @@
     "outDir": "dist",
     "rootDir": "backend",
     "strict": true,
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "experimentalDecorators": true
   },
   "include": ["backend"],
   "exclude": ["node_modules"]
