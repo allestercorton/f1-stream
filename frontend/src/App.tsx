@@ -1,13 +1,41 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import Navbar from './components/Navbar';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import { Toaster } from 'react-hot-toast';
 import HomePage from './pages/HomePage';
-import LoginPage from './pages/LoginPage';
-import RegisterPage from './pages/RegisterPage';
-import NotFound from './pages/404';
-import ProfilePage from './pages/ProfilePage';
-import PrivateRoute from './components/PrivateRoute';
+import SigninPage from './pages/SigninPage';
+import SignupPage from './pages/SignupPage';
+import ForgotPasswordPage from './pages/ForgotPasswordPage';
+import NotFoundPage from './pages/404';
 import PublicRoute from './components/PublicRoute';
+
+const router = createBrowserRouter([
+  {
+    path: '/',
+    element: <HomePage />,
+  },
+  {
+    element: <PublicRoute />,
+    children: [
+      {
+        path: '/sign-in',
+        element: <SigninPage />,
+      },
+      {
+        path: '/sign-up',
+        element: <SignupPage />,
+      },
+      {
+        path: '/forgot-password',
+        element: <ForgotPasswordPage />,
+      },
+    ],
+  },
+  {
+    path: '*',
+    element: <NotFoundPage />,
+  },
+]);
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -18,32 +46,12 @@ const queryClient = new QueryClient({
   },
 });
 
-const App = () => {
+export default function App() {
   return (
     <QueryClientProvider client={queryClient}>
-      <Router>
-        <div className='min-h-screen bg-gray-100'>
-          <Navbar />
-          <Routes>
-            {/* Public routes */}
-            <Route element={<PublicRoute />}>
-              <Route path='/' element={<HomePage />} />
-              <Route path='/login' element={<LoginPage />} />
-              <Route path='/register' element={<RegisterPage />} />
-            </Route>
-
-            {/* Private route */}
-            <Route element={<PrivateRoute />}>
-              <Route path='/profile' element={<ProfilePage />} />
-            </Route>
-
-            {/* Catch-All  */}
-            <Route path='*' element={<NotFound />} />
-          </Routes>
-        </div>
-      </Router>
+      <RouterProvider router={router} />
+      <Toaster position='top-center' toastOptions={{ duration: 3000 }} />
+      <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>
   );
-};
-
-export default App;
+}

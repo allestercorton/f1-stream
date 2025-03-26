@@ -6,7 +6,7 @@ const PublicRoute = () => {
 
   if (isLoading) return null;
 
-  return !isAuthenticated ? <Outlet /> : <Navigate to='/profile' replace />;
+  return isAuthenticated ? <Navigate to='/' replace /> : <Outlet />;
 };
 
 export default PublicRoute;

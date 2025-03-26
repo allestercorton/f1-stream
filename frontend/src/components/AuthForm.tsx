@@ -1,7 +1,10 @@
 import { ReactNode } from 'react';
+import { Button } from './ui/button';
+import { LoaderCircle } from 'lucide-react';
 
 interface AuthFormProps {
   title: string;
+  description: string;
   children: ReactNode;
   onSubmit: (e: React.FormEvent) => void;
   isLoading: boolean;
@@ -11,6 +14,7 @@ interface AuthFormProps {
 
 const AuthForm = ({
   title,
+  description,
   children,
   onSubmit,
   isLoading,
@@ -18,8 +22,11 @@ const AuthForm = ({
   footer,
 }: AuthFormProps) => {
   return (
-    <div className='mx-auto mt-10 w-full max-w-md rounded-lg bg-white p-8 shadow-lg'>
-      <h2 className='mb-6 text-center text-2xl font-bold'>{title}</h2>
+    <div className='w-full max-w-md'>
+      <div className='mb-8 text-center'>
+        <h1 className='mb-2 text-3xl font-semibold text-white/90'>{title}</h1>
+        <p className='text-gray-400'>{description}</p>
+      </div>
 
       {error && (
         <div
@@ -30,26 +37,27 @@ const AuthForm = ({
         </div>
       )}
 
-      <form onSubmit={onSubmit} className='space-y-4'>
-        {children}
+      <form onSubmit={onSubmit} className='space-y-6'>
+        <div className='space-y-4'>{children}</div>
 
-        <button
+        <Button
           type='submit'
+          className='w-full bg-white text-black hover:bg-white/90'
           disabled={isLoading}
-          className='flex w-full items-center justify-center gap-2 rounded bg-blue-600 px-4 py-2 text-white hover:bg-blue-700 disabled:opacity-50'
         >
           {isLoading ? (
             <>
-              <span className='h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent'></span>
-              Processing...
+              <LoaderCircle className='h-4 w-4 animate-spin' />
+              <span>Processing... </span>
             </>
           ) : (
             title
           )}
-        </button>
-      </form>
+          {title}
+        </Button>
 
-      {footer && <div className='mt-4 text-center'>{footer}</div>}
+        <div className='text-center text-sm text-gray-400'>{footer}</div>
+      </form>
     </div>
   );
 };
