@@ -1,44 +1,81 @@
 import { Link } from 'react-router-dom';
-import useAuthStore from '../stores/authStore';
+import { LogOut } from 'lucide-react';
+import { useQuery } from '@tanstack/react-query';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from './ui/dropdown-menu';
+import { Button } from './ui/button';
+import Logo from './Logo';
+import { Avatar, AvatarFallback } from './ui/avatar';
+import useAuthStore from '@/stores/authStore';
+import { getUserProfileAPI } from '@/api/authApi';
+import { getInitials } from '@/utils/getInitials';
 
 const Navbar = () => {
   const { isAuthenticated, logout } = useAuthStore();
+  const user = useAuthStore();
+
+  const { data } = useQuery({
+    queryKey: ['userProfile'],
+    queryFn: getUserProfileAPI,
+    enabled: !!user,
+  });
 
   return (
-    <nav className='bg-blue-600 p-4 text-white'>
-      <div className='container mx-auto flex items-center justify-between'>
-        <Link to='/' className='text-xl font-bold'>
-          MERN Auth
+    <header className='sticky z-50 border-b border-white/10 bg-black/90 py-4 backdrop-blur-md'>
+      <div className='container mx-auto flex items-center justify-between px-4'>
+        <Link to='/'>
+          <Logo />
         </Link>
-        <div className='space-x-4'>
-          {isAuthenticated ? (
-            <>
-              <Link to='/profile' className='hover:text-blue-200'>
-                Profile
-              </Link>
-              <button
+
+        {isAuthenticated ? (
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button
+                variant='ghost'
+                className='rounded-full hover:bg-transparent'
+              >
+                <Avatar className='hover:bg-white/5'>
+                  <AvatarFallback className='bg-gray-800 text-white hover:bg-gray-800/80'>
+                    {getInitials(data?.name)}
+                  </AvatarFallback>
+                </Avatar>
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent
+              align='end'
+              className='w-56 rounded-xl border border-white/10 bg-black/95 backdrop-blur-md'
+            >
+              <DropdownMenuLabel className='px-3 py-2 text-gray-400'>
+                {data?.name}
+              </DropdownMenuLabel>
+              <DropdownMenuSeparator className='bg-white/10' />
+              <DropdownMenuItem
+                className='mx-1 my-0.5 cursor-pointer rounded-lg px-3 py-2 text-red-400 focus:bg-white/10 focus:text-red-400'
                 onClick={logout}
-                className='rounded bg-white px-3 py-1 text-blue-600 hover:bg-blue-100'
               >
-                Logout
-              </button>
-            </>
-          ) : (
-            <>
-              <Link to='/login' className='hover:text-blue-200'>
-                Login
-              </Link>
-              <Link
-                to='/register'
-                className='rounded bg-white px-3 py-1 text-blue-600 hover:text-blue-500'
-              >
-                Register
-              </Link>
-            </>
-          )}
-        </div>
+                <LogOut className='mr-2 h-4 w-4' />
+                <span>Log out</span>
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        ) : (
+          <Link to='/sign-in'>
+            <Button
+              variant='ghost'
+              className='rounded-full px-4 text-white/90 hover:bg-white/10'
+            >
+              Sign In
+            </Button>
+          </Link>
+        )}
       </div>
-    </nav>
+    </header>
   );
 };
 

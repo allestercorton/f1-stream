@@ -1,24 +1,21 @@
+import ChatInterface from '@/components/ChatInterface';
+import LiveStream from '@/components/LiveStream';
+import Navbar from '@/components/Navbar';
+
 export default function HomePage() {
   return (
-    <div className='container mx-auto px-4 py-8'>
-      <div className='mx-auto max-w-3xl text-center'>
-        <h1 className='mb-6 text-4xl font-bold'>Welcome to MERN Auth App</h1>
-        <p className='mb-8 text-xl'>
-          A secure authentication system built with the MERN stack and
-          TypeScript
-        </p>
-        <div className='rounded-lg bg-white p-8 shadow-md'>
-          <h2 className='mb-4 text-2xl font-semibold'>Features</h2>
-          <ul className='space-y-2 text-left'>
-            <li>✅ Secure user authentication with JWT</li>
-            <li>✅ Form validation with Zod and React Hook Form</li>
-            <li>✅ State management with Zustand</li>
-            <li>✅ API integration with Axios and TanStack Query</li>
-            <li>✅ TypeScript for type safety</li>
-            <li>✅ MongoDB with Typegoose for type-safe models</li>
-          </ul>
+    <main className='min-h-screen bg-black text-white'>
+      <Navbar />
+      <div className='container mx-auto px-4 py-6'>
+        <div className='grid h-[calc(100vh-120px)] grid-cols-1 gap-6 lg:grid-cols-3'>
+          <div className='relative h-full overflow-hidden rounded-2xl border border-white/10 bg-gray-950 lg:col-span-2'>
+            <LiveStream />
+          </div>
+          <div className='h-full max-h-[calc(100vh-120px)] overflow-hidden rounded-2xl border border-white/10 bg-gray-950 lg:max-h-full'>
+            <ChatInterface />
+          </div>
         </div>
       </div>
-    </div>
+    </main>
   );
 }
