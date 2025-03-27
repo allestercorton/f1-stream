@@ -18,12 +18,11 @@ import { getInitials } from '@/utils/getInitials';
 
 const Navbar = () => {
   const { isAuthenticated, logout } = useAuthStore();
-  const user = useAuthStore();
 
-  const { data } = useQuery({
+  const { data: user } = useQuery({
     queryKey: ['userProfile'],
     queryFn: getUserProfileAPI,
-    enabled: !!user,
+    enabled: isAuthenticated,
   });
 
   return (
@@ -42,7 +41,7 @@ const Navbar = () => {
               >
                 <Avatar className='hover:bg-white/5'>
                   <AvatarFallback className='bg-gray-800 text-white hover:bg-gray-800/80'>
-                    {getInitials(data?.name)}
+                    {getInitials(user?.name)}
                   </AvatarFallback>
                 </Avatar>
               </Button>
@@ -52,7 +51,7 @@ const Navbar = () => {
               className='w-56 rounded-xl border border-white/10 bg-black/95 backdrop-blur-md'
             >
               <DropdownMenuLabel className='px-3 py-2 text-gray-400'>
-                {data?.name}
+                {user?.name}
               </DropdownMenuLabel>
               <DropdownMenuSeparator className='bg-white/10' />
               <DropdownMenuItem

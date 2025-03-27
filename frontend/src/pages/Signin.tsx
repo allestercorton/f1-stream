@@ -23,8 +23,8 @@ export default function Signin() {
   });
 
   const onSubmit = async (data: LoginInputs) => {
-    const success = await loginUser(data.email, data.password);
-    if (success) navigate('/');
+    await loginUser(data.email, data.password);
+    navigate('/');
   };
 
   if (error) toast.error((error as { message?: string })?.message || error);
