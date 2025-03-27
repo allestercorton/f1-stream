@@ -60,8 +60,9 @@ export default function Signup() {
                   {...register('name')}
                   placeholder='Name'
                   className={`mt-1 border-white/10 bg-gray-900 py-6 focus-visible:ring-white/70 ${
-                    errors.password &&
-                    'border-red-600 focus-visible:border-white/10'
+                    errors.name
+                      ? 'border-red-600 focus-visible:border-white/10'
+                      : 'border-white/10 focus-visible:ring-white/10'
                   }`}
                   autoComplete='name'
                   disabled={isLoading}
@@ -80,8 +81,9 @@ export default function Signup() {
                   {...register('email')}
                   placeholder='name@example.com'
                   className={`mt-1 border-white/10 bg-gray-900 py-6 focus-visible:ring-white/70 ${
-                    errors.password &&
-                    'border-red-600 focus-visible:border-white/10'
+                    errors.email
+                      ? 'border-red-600 focus-visible:border-white/10'
+                      : 'border-white/10 focus-visible:ring-white/10'
                   }`}
                   autoComplete='email'
                   disabled={isLoading}
@@ -100,8 +102,9 @@ export default function Signup() {
                   {...register('password')}
                   placeholder='Password'
                   className={`mt-1 border-white/10 bg-gray-900 py-6 focus-visible:ring-white/70 ${
-                    errors.password &&
-                    'border-red-600 focus-visible:border-white/10'
+                    errors.password
+                      ? 'border-red-600 focus-visible:border-white/10'
+                      : 'border-white/10 focus-visible:ring-white/10'
                   }`}
                   autoComplete='new-password'
                   disabled={isLoading}
@@ -120,8 +123,9 @@ export default function Signup() {
                   {...register('confirmPassword')}
                   placeholder='Confirm Password'
                   className={`mt-1 border-white/10 bg-gray-900 py-6 focus-visible:ring-white/70 ${
-                    errors.password &&
-                    'border-red-600 focus-visible:border-white/10'
+                    errors.confirmPassword
+                      ? 'border-red-600 focus-visible:border-white/10'
+                      : 'border-white/10 focus-visible:ring-white/10'
                   }`}
                   autoComplete='new-password'
                   disabled={isLoading}
