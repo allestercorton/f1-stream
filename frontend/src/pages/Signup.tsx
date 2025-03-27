@@ -23,13 +23,13 @@ export default function Signup() {
   });
 
   const onSubmit = async (data: RegisterInputs) => {
-    const success = await registerUser(
+    await registerUser(
       data.name,
       data.email,
       data.password,
       data.confirmPassword,
     );
-    if (success) navigate('/');
+    navigate('/');
   };
 
   if (error) toast.error((error as { message?: string })?.message || error);

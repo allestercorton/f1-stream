@@ -1,6 +1,7 @@
 import { create } from 'zustand';
 import { devtools, persist } from 'zustand/middleware';
 import axios from 'axios';
+import { toast } from 'react-hot-toast';
 import { AuthState } from '../types/auth.types';
 import { loginAPI, registerAPI } from '../api/authApi';
 
@@ -20,6 +21,7 @@ const useAuthStore = create<AuthState>()(
             const userData = await loginAPI({ email, password });
             localStorage.setItem('token', userData.token);
             set({ user: userData, isAuthenticated: true, isLoading: false });
+            toast.success('Welcome back to F1Stream!');
             return true;
           } catch (error) {
             const errorMessage = axios.isAxiosError(error)
@@ -42,6 +44,7 @@ const useAuthStore = create<AuthState>()(
             });
             localStorage.setItem('token', userData.token);
             set({ user: userData, isAuthenticated: true, isLoading: false });
+            toast.success('Account created! Enjoy the race.');
             return true;
           } catch (error) {
             const errorMessage = axios.isAxiosError(error)
@@ -55,6 +58,7 @@ const useAuthStore = create<AuthState>()(
         logout: () => {
           localStorage.removeItem('token');
           set({ user: null, isAuthenticated: false });
+          toast.success('Logged out successfully.');
         },
 
         clearError: () => set({ error: null }),

@@ -14,7 +14,14 @@ const app = express();
 
 // Middleware
 app.use(morgan('dev'));
-app.use(cors({ origin: env.CLIENT_URL, credentials: true }));
+app.use(
+  cors({
+    origin: env.CLIENT_URL,
+    credentials: true,
+    methods: ['GET', 'POST', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+  })
+);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
