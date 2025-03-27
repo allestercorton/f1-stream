@@ -1,10 +1,10 @@
+import { Link } from 'react-router-dom';
 import Navbar from '@/components/Navbar';
-import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Link } from 'react-router-dom';
+import FormButton from '@/components/FormButton';
 
-export default function ForgotPasswordPage() {
+export default function ForgotPassword() {
   return (
     <div className='flex min-h-screen flex-col bg-black'>
       <Navbar />
@@ -29,18 +29,13 @@ export default function ForgotPasswordPage() {
                   id='email'
                   type='email'
                   placeholder='name@example.com'
-                  className='mt-1 border-white/10 bg-gray-900 focus-visible:ring-white/20'
+                  className='mt-1 border-white/10 bg-gray-900 py-6 focus-visible:ring-white/70'
                   autoComplete='email'
                 />
               </div>
             </div>
 
-            <Button
-              type='submit'
-              className='flex w-full items-center justify-center gap-2 bg-white text-black hover:bg-white/90'
-            >
-              Send Reset Link
-            </Button>
+            <FormButton name='Send Reset Link' />
 
             <div className='text-center text-sm text-gray-400'>
               Remember your password?{' '}
@@ -49,10 +44,6 @@ export default function ForgotPasswordPage() {
               </Link>
             </div>
           </form>
-
-          <div className='mt-12 text-center text-xs text-gray-500'>
-            <p>© 2025 F1Stream. All rights reserved.</p>
-          </div>
         </div>
       </div>
     </div>

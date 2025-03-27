@@ -2,32 +2,37 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { Toaster } from 'react-hot-toast';
-import HomePage from './pages/HomePage';
-import SigninPage from './pages/SigninPage';
-import SignupPage from './pages/SignupPage';
-import ForgotPasswordPage from './pages/ForgotPasswordPage';
+import Home from './pages/Home';
+import Signin from './pages/Signin';
+import Signup from './pages/Signup';
+import ForgotPassword from './pages/ForgotPassword';
+import NewPassword from './pages/NewPassword';
 import NotFoundPage from './pages/404';
 import PublicRoute from './components/PublicRoute';
 
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <HomePage />,
+    element: <Home />,
   },
   {
     element: <PublicRoute />,
     children: [
       {
         path: '/sign-in',
-        element: <SigninPage />,
+        element: <Signin />,
       },
       {
         path: '/sign-up',
-        element: <SignupPage />,
+        element: <Signup />,
       },
       {
         path: '/forgot-password',
-        element: <ForgotPasswordPage />,
+        element: <ForgotPassword />,
+      },
+      {
+        path: '/new-password',
+        element: <NewPassword />,
       },
     ],
   },
