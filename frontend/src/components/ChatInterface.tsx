@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect, useCallback, useMemo } from 'react';
-import { Send, User, ChevronDown } from 'lucide-react';
+import { Send, ChevronDown } from 'lucide-react';
 import { Button } from './ui/button';
 import { ScrollArea } from './ui/scroll-area';
 import { Avatar, AvatarFallback } from './ui/avatar';
@@ -153,8 +153,12 @@ const ChatInterface = () => {
 
       {/* Chat Messages */}
       <ScrollArea
+        className={`flex-1 p-3 transition-all duration-300 ${
+          isChatExpanded
+            ? 'max-h-[calc(100vh-220px)] opacity-100'
+            : 'max-h-0 overflow-hidden opacity-0'
+        }`}
         ref={scrollAreaRef}
-        className={`h-[calc(100vh-220px)] flex-1 p-3 transition-all duration-300 ${isChatExpanded ? 'opacity-100' : 'h-0 overflow-hidden opacity-0'}`}
       >
         <div className='space-y-3'>
           {messages.map((message) => (
@@ -200,7 +204,11 @@ const ChatInterface = () => {
 
       {/* Chat Input */}
       <div
-        className={`border-t border-white/10 bg-black/30 p-3 transition-all duration-300 ${isChatExpanded ? 'opacity-100' : 'h-0 overflow-hidden border-t-0 p-0 opacity-0'}`}
+        className={`border-t border-purple-900/50 bg-gray-900 p-3 transition-all duration-300 ${
+          isChatExpanded
+            ? 'max-h-20 opacity-100'
+            : 'max-h-0 overflow-hidden opacity-0'
+        }`}
       >
         <form
           className='flex items-center gap-2'

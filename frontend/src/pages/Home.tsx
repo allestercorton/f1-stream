@@ -2,7 +2,7 @@ import ChatInterface from '@/components/ChatInterface';
 import LiveStream from '@/components/LiveStream';
 import Navbar from '@/components/Navbar';
 
-export default function HomePage() {
+export default function Home() {
   return (
     <main className='min-h-screen bg-black text-white'>
       <Navbar />
