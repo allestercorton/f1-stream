@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -7,33 +7,57 @@ import toast from 'react-hot-toast';
 import Navbar from '@/components/Navbar';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
-import { LoginInputs, loginSchema } from '../utils/validation';
-import useAuthStore from '../stores/authStore';
+import { loginSchema, type LoginFormValues } from '../utils/validation';
+import { useAuthStore } from '../store/authStore';
 import InputError from '@/components/InputError';
 import FormButton from '@/components/FormButton';
 
 export default function Signin() {
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
-  const { login: loginUser, isLoading, error } = useAuthStore();
 
-  useEffect(() => {
-    document.title = 'F1Stream - Sign In';
-  }, []);
+  // Extract states from the Zustand store
+  const { login: loginUser, error, clearError } = useAuthStore();
 
+  // React Hook Form setup with validation using Zod
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<LoginInputs>({
+  } = useForm<LoginFormValues>({
     resolver: zodResolver(loginSchema),
+    defaultValues: {
+      email: '',
+      password: '',
+    },
   });
 
-  const onSubmit = async (data: LoginInputs) => {
-    await loginUser(data.email, data.password);
-    navigate('/');
-  };
+  // Set the page title when the component mounts
+  useEffect(() => {
+    document.title = 'F1Stream - Sign In';
+  }, []);
 
-  if (error) toast.error((error as { message?: string })?.message || error);
+  // Clear any existing authentication errors when the component mounts
+  useEffect(() => {
+    clearError();
+  }, [clearError]);
+
+  // Show a toast notification if an authentication error occurs
+  useEffect(() => {
+    if (error) {
+      toast.dismiss();
+      toast.error(error);
+    }
+  }, [error]);
+
+  // Handle form submission
+  const onSubmit = async (data: LoginFormValues) => {
+    setIsLoading(true);
+    clearError();
+    const success = await loginUser(data);
+    if (success) navigate('/');
+    setIsLoading(false);
+  };
 
   return (
     <>

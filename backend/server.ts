@@ -1,41 +1,16 @@
-import express from 'express';
-import morgan from 'morgan';
-import cors from 'cors';
-import cookieParser from 'cookie-parser';
-import { connectDB } from './config/db';
-import env from './config/env';
-import authRoutes from './routes/auth.routes';
-import { notFoundHandler, errorHandler } from './middleware/error.middleware';
+import http from 'http';
+import app from './app';
+import connectDB from './config/db';
 
 // Connect to MongoDB
 connectDB();
 
-const app = express();
-
-// Middleware
-app.use(morgan('dev'));
-app.use(
-  cors({
-    origin: env.CLIENT_URL,
-    credentials: true,
-    methods: ['GET', 'POST', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization'],
-  })
-);
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-app.use(cookieParser());
-
-// Routes
-app.use('/api/v1/auth', authRoutes);
-
-// Error handling
-app.use(notFoundHandler);
-app.use(errorHandler);
+// Create HTTP server
+const server = http.createServer(app);
 
 // Start server
-app.listen(env.PORT, () =>
-  console.log(
-    `🚀 Server is running in ${env.NODE_ENV} mode on port ${env.PORT}`
-  )
+const PORT = process.env.PORT || 5000;
+const NODE_ENV = process.env.NODE_ENV || 'development';
+server.listen(PORT, () =>
+  console.log(`🚀 Server is running in ${NODE_ENV} mode on port ${PORT}`)
 );

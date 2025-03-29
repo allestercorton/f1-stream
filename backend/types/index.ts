@@ -1,13 +1,11 @@
-import { Request } from 'express';
-import { Document } from 'mongoose';
-
-export interface UserDocument extends Omit<Document, 'id'> {
-  email: string;
-  name: string;
-  password: string;
-  isPasswordMatch(password: string): Promise<boolean>;
-}
+import type { Request } from 'express';
+import { DocumentType } from '@typegoose/typegoose';
+import type { User } from '../models/user.model';
 
 export interface AuthRequest extends Request {
-  user?: UserDocument;
+  user?: DocumentType<User>;
+}
+
+export interface TokenPayload {
+  id: string;
 }

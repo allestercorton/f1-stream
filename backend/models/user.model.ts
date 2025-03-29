@@ -1,37 +1,44 @@
 import {
-  getModelForClass,
   prop,
+  getModelForClass,
   pre,
-  DocumentType,
+  type DocumentType,
 } from '@typegoose/typegoose';
-import bcrypt from 'bcryptjs';
+import argon2 from 'argon2';
 
 @pre<User>('save', async function (next) {
-  if (!this.isModified('password')) return next();
-  this.password = await bcrypt.hash(this.password, 10);
-  next();
+  try {
+    // Only hash the password if it's modified or a new record
+    if (this.isModified('password') || this.isNew) {
+      this.password = await argon2.hash(this.password);
+    }
+    next();
+  } catch (error) {
+    next(error as Error);
+  }
 })
-class User {
-  @prop({ type: String, required: true, trim: true })
+export class User {
+  @prop({ type: String, required: true })
   public name!: string;
 
   @prop({
     type: String,
     required: true,
     unique: true,
-    trim: true,
     lowercase: true,
+    index: true,
   })
   public email!: string;
 
   @prop({ type: String, required: true, minlength: 6 })
   public password!: string;
 
-  public isPasswordMatch(
+  // Method to compare passwords
+  public async comparePassword(
     this: DocumentType<User>,
-    enteredPassword: string
+    candidatePassword: string
   ): Promise<boolean> {
-    return bcrypt.compare(enteredPassword, this.password);
+    return argon2.verify(this.password, candidatePassword);
   }
 }
 
