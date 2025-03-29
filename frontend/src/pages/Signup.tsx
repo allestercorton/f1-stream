@@ -1,23 +1,18 @@
-import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Helmet } from 'react-helmet-async';
-import toast from 'react-hot-toast';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
-import { useAuthStore } from '../store/authStore';
-import { registerSchema, RegisterFormValues } from '../utils/validation';
 import Navbar from '@/components/Navbar';
 import InputError from '@/components/InputError';
 import FormButton from '@/components/FormButton';
+import { registerSchema, RegisterFormValues } from '../utils/validation';
+import { useAuthStore } from '../store/authStore';
 
 export default function Signup() {
-  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
-
-  // Extract states from the Zustand store
-  const { register: registerUser, error, clearError } = useAuthStore();
+  const { register: registerUser, isPending } = useAuthStore();
 
   // React Hook Form setup with validation using Zod
   const {
@@ -26,39 +21,12 @@ export default function Signup() {
     formState: { errors },
   } = useForm<RegisterFormValues>({
     resolver: zodResolver(registerSchema),
-    defaultValues: {
-      name: '',
-      email: '',
-      password: '',
-      confirmPassword: '',
-    },
   });
-
-  // Set the page title when the component mounts
-  useEffect(() => {
-    document.title = 'F1Stream - Sign Up';
-  }, []);
-
-  // Clear any existing authentication errors when the component mounts
-  useEffect(() => {
-    clearError();
-  }, [clearError]);
-
-  // Show a toast notification if an authentication error occurs
-  useEffect(() => {
-    if (error) {
-      toast.dismiss();
-      toast.error(error);
-    }
-  }, [error]);
 
   // Handle form submission
   const onSubmit = async (data: RegisterFormValues) => {
-    setIsLoading(true);
-    clearError();
     const success = await registerUser(data);
     if (success) navigate('/');
-    setIsLoading(false);
   };
 
   return (
@@ -96,7 +64,7 @@ export default function Signup() {
                         : 'border-white/10 focus-visible:ring-white/10'
                     }`}
                     autoComplete='name'
-                    disabled={isLoading}
+                    disabled={isPending}
                   />
                   <InputError errors={errors} field='name' />
                 </div>
@@ -117,7 +85,7 @@ export default function Signup() {
                         : 'border-white/10 focus-visible:ring-white/10'
                     }`}
                     autoComplete='email'
-                    disabled={isLoading}
+                    disabled={isPending}
                   />
                   <InputError errors={errors} field='email' />
                 </div>
@@ -138,7 +106,7 @@ export default function Signup() {
                         : 'border-white/10 focus-visible:ring-white/10'
                     }`}
                     autoComplete='new-password'
-                    disabled={isLoading}
+                    disabled={isPending}
                   />
                   <InputError errors={errors} field='password' />
                 </div>
@@ -159,13 +127,13 @@ export default function Signup() {
                         : 'border-white/10 focus-visible:ring-white/10'
                     }`}
                     autoComplete='new-password'
-                    disabled={isLoading}
+                    disabled={isPending}
                   />
                   <InputError errors={errors} field='confirmPassword' />
                 </div>
               </div>
 
-              <FormButton name='Sign Up' isLoading={isLoading} />
+              <FormButton name='Sign Up' isPending={isPending} />
 
               <div className='text-center text-sm text-gray-400'>
                 Already have an account?{' '}
