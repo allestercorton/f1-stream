@@ -1,5 +1,6 @@
-import { Request, Response, NextFunction } from 'express';
-import createHttpError, { HttpError } from 'http-errors';
+import type { Request, Response, NextFunction } from 'express';
+import { HttpError } from 'http-errors';
+import { Error as MongooseError } from 'mongoose';
 import { ZodError } from 'zod';
 
 export const errorHandler = (
@@ -8,40 +9,52 @@ export const errorHandler = (
   res: Response,
   _next: NextFunction
 ) => {
-  console.error(err);
+  let statusCode = 500;
+  let message = 'Server Error';
+  let errors: any = null;
+
+  // Handle HTTP errors
+  if (err instanceof HttpError) {
+    statusCode = err.statusCode;
+    message = err.message;
+  }
 
   // Handle Zod validation errors
   if (err instanceof ZodError) {
-    res.status(400).json({
-      success: false,
-      errors: err.errors.map((issue) => ({
-        path: issue.path.join('.'),
-        message: issue.message,
-      })),
-    });
-    return;
+    statusCode = 400;
+    message = 'Validation Error';
+    errors = err.errors.map((e) => ({
+      field: e.path.join('.'),
+      message: e.message,
+    }));
   }
 
-  // Handle known HTTP errors
-  if (err instanceof HttpError) {
-    res.status(err.statusCode).json({
-      success: false,
-      message: err.message,
-    });
-    return;
+  // Handle Mongoose validation errors
+  if (err instanceof MongooseError.ValidationError) {
+    statusCode = 400;
+    message = 'Validation Error';
+    errors = Object.values(err.errors).map((e: any) => ({
+      field: (e as any).path,
+      message: (e as any).message,
+    }));
   }
 
-  // Default to Internal Server Error
-  res.status(500).json({
+  // Handle Mongoose duplicate key errors
+  if ((err as any).code === 11000) {
+    statusCode = 400;
+    message = 'Duplicate field value';
+    errors = [
+      {
+        field: Object.keys((err as any).keyValue)[0],
+        message: 'Already exists',
+      },
+    ];
+  }
+
+  res.status(statusCode).json({
     success: false,
-    message: 'Internal Server Error',
+    message,
+    errors,
+    stack: process.env.NODE_ENV === 'production' ? null : err.stack,
   });
-};
-
-export const notFoundHandler = (
-  req: Request,
-  _res: Response,
-  next: NextFunction
-) => {
-  next(createHttpError(404, `Not found - ${req.originalUrl}`));
 };

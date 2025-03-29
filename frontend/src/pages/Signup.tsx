@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -6,39 +6,60 @@ import { Helmet } from 'react-helmet-async';
 import toast from 'react-hot-toast';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
-import useAuthStore from '../stores/authStore';
-import { RegisterInputs, registerSchema } from '../utils/validation';
+import { useAuthStore } from '../store/authStore';
+import { registerSchema, RegisterFormValues } from '../utils/validation';
 import Navbar from '@/components/Navbar';
 import InputError from '@/components/InputError';
 import FormButton from '@/components/FormButton';
 
 export default function Signup() {
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
-  const { register: registerUser, isLoading, error } = useAuthStore();
 
-  useEffect(() => {
-    document.title = 'F1Stream - Sign Up';
-  }, []);
+  // Extract states from the Zustand store
+  const { register: registerUser, error, clearError } = useAuthStore();
 
+  // React Hook Form setup with validation using Zod
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<RegisterInputs>({
+  } = useForm<RegisterFormValues>({
     resolver: zodResolver(registerSchema),
+    defaultValues: {
+      name: '',
+      email: '',
+      password: '',
+      confirmPassword: '',
+    },
   });
 
-  const onSubmit = async (data: RegisterInputs) => {
-    await registerUser(
-      data.name,
-      data.email,
-      data.password,
-      data.confirmPassword,
-    );
-    navigate('/');
-  };
+  // Set the page title when the component mounts
+  useEffect(() => {
+    document.title = 'F1Stream - Sign Up';
+  }, []);
 
-  if (error) toast.error((error as { message?: string })?.message || error);
+  // Clear any existing authentication errors when the component mounts
+  useEffect(() => {
+    clearError();
+  }, [clearError]);
+
+  // Show a toast notification if an authentication error occurs
+  useEffect(() => {
+    if (error) {
+      toast.dismiss();
+      toast.error(error);
+    }
+  }, [error]);
+
+  // Handle form submission
+  const onSubmit = async (data: RegisterFormValues) => {
+    setIsLoading(true);
+    clearError();
+    const success = await registerUser(data);
+    if (success) navigate('/');
+    setIsLoading(false);
+  };
 
   return (
     <>

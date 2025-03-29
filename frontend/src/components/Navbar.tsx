@@ -1,6 +1,5 @@
 import { Link } from 'react-router-dom';
 import { LogOut } from 'lucide-react';
-import { useQuery } from '@tanstack/react-query';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -12,18 +11,11 @@ import {
 import { Button } from './ui/button';
 import Logo from './Logo';
 import { Avatar, AvatarFallback } from './ui/avatar';
-import useAuthStore from '@/stores/authStore';
-import { getUserProfileAPI } from '@/api/authApi';
+import { useAuthStore } from '@/store/authStore';
 import { getInitials } from '@/utils/getInitials';
 
 const Navbar = () => {
-  const { isAuthenticated, logout } = useAuthStore();
-
-  const { data: user } = useQuery({
-    queryKey: ['userProfile'],
-    queryFn: getUserProfileAPI,
-    enabled: isAuthenticated,
-  });
+  const { isAuthenticated, user, logout } = useAuthStore();
 
   return (
     <header className='sticky z-50 border-b border-white/10 bg-black/90 py-4 backdrop-blur-md'>

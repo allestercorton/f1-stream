@@ -1,26 +1,32 @@
-import { Response, NextFunction } from 'express';
 import asyncHandler from 'express-async-handler';
-import { unauthorized } from '../utils/error.response';
-import { verifyToken } from '../utils/token.utils';
-import { AuthRequest } from '../types';
+import createHttpError from 'http-errors';
+import type { Response, NextFunction } from 'express';
+import { verifyToken } from '../utils/token';
 import UserModel from '../models/user.model';
+import type { AuthRequest } from '../types';
 
+// Middleware to protect routes
 export const protect = asyncHandler(
   async (req: AuthRequest, _res: Response, next: NextFunction) => {
-    const authHeader = req.headers.authorization;
-    const token = authHeader?.startsWith('Bearer')
-      ? authHeader.split(' ')[1]
-      : req.cookies?.token;
+    let token;
 
-    if (!token) return next(unauthorized('Not authorized, no token'));
+    if (req.headers.authorization?.startsWith('Bearer')) {
+      try {
+        token = req.headers.authorization.split('')[1];
+        const decoded = verifyToken(token);
+        const user = await UserModel.findById(decoded.id).select('-password');
 
-    const decoded = verifyToken(token) as { id: string } | null;
-    if (!decoded) return next(unauthorized('Not authorized, token failed'));
+        if (!user) {
+          throw createHttpError(401, 'Unauthorized: User not found');
+        }
 
-    const user = await UserModel.findById(decoded.id).select('-password');
-    if (!user) return next(unauthorized('Not authorized, user not found'));
-
-    req.user = user;
-    next();
+        req.user = user;
+        next();
+      } catch (error) {
+        throw createHttpError(401, 'Unauthorized: Invalid token');
+      }
+    } else {
+      throw createHttpError(401, 'Unauthorized: No token provided');
+    }
   }
 );

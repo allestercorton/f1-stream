@@ -1,5 +1,4 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Toaster } from 'react-hot-toast';
 import { HelmetProvider } from 'react-helmet-async';
 import Home from './pages/Home';
@@ -42,22 +41,11 @@ const router = createBrowserRouter([
   },
 ]);
 
-const queryClient = new QueryClient({
-  defaultOptions: {
-    queries: {
-      retry: 1,
-      refetchOnWindowFocus: false,
-    },
-  },
-});
-
 export default function App() {
   return (
     <HelmetProvider>
-      <QueryClientProvider client={queryClient}>
-        <RouterProvider router={router} />
-        <Toaster position='top-center' toastOptions={{ duration: 3000 }} />
-      </QueryClientProvider>
+      <RouterProvider router={router} />
+      <Toaster position='top-center' toastOptions={{ duration: 3000 }} />
     </HelmetProvider>
   );
 }

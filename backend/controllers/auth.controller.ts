@@ -1,68 +1,89 @@
-import { Request, Response, NextFunction } from 'express';
+import { Request, Response } from 'express';
 import asyncHandler from 'express-async-handler';
-import { badRequest, unauthorized } from '../utils/error.response';
-import { generateToken } from '../utils/token.utils';
+import createHttpError from 'http-errors';
+import { loginSchema, registerSchema } from '../utils/validation';
 import UserModel from '../models/user.model';
-import { loginSchema, registerSchema } from '../validations/auth.validation';
+import { generateToken } from '../utils/token';
 import { AuthRequest } from '../types';
 
 /**
- * @desc    Register user
- * @route   POST /api/auth/v1/register
+ * @desc    Register a new user
+ * @route   POST /api/auth/register
  * @access  Public
  */
 export const registerUser = asyncHandler(
-  async (req: Request, res: Response, next: NextFunction) => {
-    const { name, email, password } = registerSchema.parse(req.body);
+  async (req: Request, res: Response) => {
+    // Validate the request body
+    const { email, ...rest } = registerSchema.parse(req.body);
+    const lowerCaseEmail = email.toLowerCase();
 
-    if (await UserModel.findOne({ email })) {
-      return next(badRequest('User already exists'));
+    // Check if user already exists
+    const userExists = await UserModel.exists({ email: lowerCaseEmail });
+    if (userExists) {
+      throw createHttpError(400, 'User already exists');
     }
 
-    const user = await UserModel.create({ name, email, password });
-    const token = generateToken(user);
+    // Create user
+    const user = await UserModel.create({ email: lowerCaseEmail, ...rest });
+    if (!user) {
+      throw createHttpError(500, 'User registration failed');
+    }
 
+    // Generate token
+    const token = generateToken({ id: user._id.toString() });
+
+    // Respond with user data and token
     res.status(201).json({
-      success: true,
-      data: { id: user._id, name, email, token },
+      user: {
+        id: user._id,
+        name: user.name,
+        email: user.email,
+      },
+      token,
     });
   }
 );
 
 /**
- * @desc    Login user
- * @route   POST /api/auth/v1/login
+ * @desc    Authenticate a user
+ * @route   POST /api/auth/login
  * @access  Public
  */
-export const loginUser = asyncHandler(
-  async (req: Request, res: Response, next: NextFunction) => {
-    const { email, password } = loginSchema.parse(req.body);
-    const user = await UserModel.findOne({ email });
+export const loginUser = asyncHandler(async (req: Request, res: Response) => {
+  // Validate the request body
+  const { email, password } = loginSchema.parse(req.body);
+  const lowerCaseEmail = email.toLowerCase();
 
-    if (!user || !(await user.isPasswordMatch(password))) {
-      return next(unauthorized('Invalid email or password'));
-    }
+  // Find user by email
+  const user = await UserModel.findOne({ email: lowerCaseEmail });
 
-    const token = generateToken(user);
-
-    res.json({
-      success: true,
-      data: { id: user._id, name: user.name, email, token },
-    });
+  // Check if user exists and password is correct
+  if (!user || !(await user.comparePassword(password))) {
+    throw createHttpError(401, 'Invalid email or password');
   }
-);
+
+  // Generate token
+  const token = generateToken({ id: user._id.toString() });
+
+  // Respond with user data and token
+  res.status(200).json({
+    user: {
+      id: user._id,
+      name: user.name,
+      email: user.email,
+    },
+    token,
+  });
+});
 
 /**
  * @desc    Get current user profile
- * @route   POST /api/auth/v1/profile
+ * @route   GET /api/auth/me
  * @access  Private
  */
-export const getUserProfile = asyncHandler(
+export const getCurrentUser = asyncHandler(
   async (req: AuthRequest, res: Response) => {
     const { _id, name, email } = req.user!;
-    res.json({
-      success: true,
-      data: { id: _id, name, email },
-    });
+    res.status(200).json({ id: _id, name, email });
   }
 );

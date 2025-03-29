@@ -5,7 +5,7 @@ import {
   User,
   LoginFormData,
   RegisterFormData,
-} from '../types/auth.types';
+} from '../types/auth';
 
 const AUTH_URL = '/v1/auth';
 
