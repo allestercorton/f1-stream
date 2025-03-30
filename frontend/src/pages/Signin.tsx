@@ -1,23 +1,18 @@
-import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Helmet } from 'react-helmet-async';
-import toast from 'react-hot-toast';
 import Navbar from '@/components/Navbar';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
-import { loginSchema, type LoginFormValues } from '../utils/validation';
-import { useAuthStore } from '../store/authStore';
 import InputError from '@/components/InputError';
 import FormButton from '@/components/FormButton';
+import { loginSchema, type LoginFormValues } from '../utils/validation';
+import { useAuthStore } from '../store/authStore';
 
 export default function Signin() {
-  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
-
-  // Extract states from the Zustand store
-  const { login: loginUser, error, clearError } = useAuthStore();
+  const { login: loginUser, isPending } = useAuthStore();
 
   // React Hook Form setup with validation using Zod
   const {
@@ -26,37 +21,12 @@ export default function Signin() {
     formState: { errors },
   } = useForm<LoginFormValues>({
     resolver: zodResolver(loginSchema),
-    defaultValues: {
-      email: '',
-      password: '',
-    },
   });
-
-  // Set the page title when the component mounts
-  useEffect(() => {
-    document.title = 'F1Stream - Sign In';
-  }, []);
-
-  // Clear any existing authentication errors when the component mounts
-  useEffect(() => {
-    clearError();
-  }, [clearError]);
-
-  // Show a toast notification if an authentication error occurs
-  useEffect(() => {
-    if (error) {
-      toast.dismiss();
-      toast.error(error);
-    }
-  }, [error]);
 
   // Handle form submission
   const onSubmit = async (data: LoginFormValues) => {
-    setIsLoading(true);
-    clearError();
     const success = await loginUser(data);
     if (success) navigate('/');
-    setIsLoading(false);
   };
 
   return (
@@ -94,7 +64,7 @@ export default function Signin() {
                         : 'border-white/10 focus-visible:ring-white/10'
                     }`}
                     autoComplete='email'
-                    disabled={isLoading}
+                    disabled={isPending}
                   />
                   <InputError errors={errors} field='email' />
                 </div>
@@ -115,10 +85,10 @@ export default function Signin() {
                         : 'border-white/10 focus-visible:ring-white/10'
                     }`}
                     autoComplete='current-password'
-                    disabled={isLoading}
+                    disabled={isPending}
                   />
                   <InputError errors={errors} field='password' />
-                  <div className='mt-2 flex justify-end'>
+                  <div className='mt-3 flex justify-end'>
                     <Link
                       to='/forgot-password'
                       className='text-xs text-gray-400 hover:text-white'
@@ -129,7 +99,7 @@ export default function Signin() {
                 </div>
               </div>
 
-              <FormButton name='Sign In' isLoading={isLoading} />
+              <FormButton name='Sign In' isPending={isPending} />
 
               <div className='text-center text-sm text-gray-400'>
                 Don't have an account?{' '}

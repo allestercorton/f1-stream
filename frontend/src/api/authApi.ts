@@ -1,37 +1,26 @@
-import axios from 'axios';
-import axiosInstance from '../utils/axiosConfig';
+import api from '../lib/api';
 import {
-  ApiResponse,
-  User,
-  LoginFormData,
-  RegisterFormData,
-} from '../types/auth';
+  RegisterFormValues,
+  LoginFormValues,
+  ForgotPasswordFormValue,
+  ResetPasswordFormValues,
+} from '../utils/validation';
 
-const AUTH_URL = '/v1/auth';
+const AUTH_URL = '/auth';
 
-const handleRequest = async <T>(
-  request: Promise<{ data: ApiResponse<T> }>,
-): Promise<T> => {
-  try {
-    const { data } = await request;
-    return data.data;
-  } catch (error) {
-    throw (
-      (axios.isAxiosError(error) && error.response?.data?.message) ||
-      'Something went wrong'
-    );
-  }
-};
+export const loginAPI = (data: LoginFormValues) =>
+  api.post(`${AUTH_URL}/login`, data);
 
-export const loginAPI = (data: LoginFormData): Promise<User> =>
-  handleRequest(
-    axiosInstance.post<ApiResponse<User>>(`${AUTH_URL}/login`, data),
-  );
+export const registerAPI = (data: RegisterFormValues) =>
+  api.post(`${AUTH_URL}/register`, data);
 
-export const registerAPI = (data: RegisterFormData): Promise<User> =>
-  handleRequest(
-    axiosInstance.post<ApiResponse<User>>(`${AUTH_URL}/register`, data),
-  );
+export const forgotPasswordAPI = (data: ForgotPasswordFormValue) =>
+  api.post(`${AUTH_URL}/forgot-password`, data);
 
-export const getUserProfileAPI = (): Promise<User> =>
-  handleRequest(axiosInstance.get<ApiResponse<User>>(`${AUTH_URL}/profile`));
+export const resetPasswordAPI = ({
+  data,
+  token,
+}: {
+  data: ResetPasswordFormValues;
+  token: string;
+}) => api.post(`${AUTH_URL}/reset-password/${token}`, data);
