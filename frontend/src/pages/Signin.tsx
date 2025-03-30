@@ -88,7 +88,7 @@ export default function Signin() {
                     disabled={isPending}
                   />
                   <InputError errors={errors} field='password' />
-                  <div className='mt-2 flex justify-end'>
+                  <div className='mt-3 flex justify-end'>
                     <Link
                       to='/forgot-password'
                       className='text-xs text-gray-400 hover:text-white'

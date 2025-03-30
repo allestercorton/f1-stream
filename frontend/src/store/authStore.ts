@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { devtools, persist } from 'zustand/middleware';
-import { toast } from 'react-hot-toast';
+import toast from 'react-hot-toast';
 import type { AuthState } from '@/types/auth';
 import getErrorMessage from '@/utils/handleError';
 import { loginAPI, registerAPI } from '@/api/authApi';
@@ -41,7 +41,12 @@ export const useAuthStore = create<
           return true;
         } catch (error) {
           set({ isPending: false });
-          toast.error(getErrorMessage(error, 'Failed to login'));
+          toast.error(
+            getErrorMessage(
+              error,
+              'Login failed. Please check your credentials.',
+            ),
+          );
           return false;
         }
       },
@@ -61,7 +66,9 @@ export const useAuthStore = create<
           return true;
         } catch (error) {
           set({ isPending: false });
-          toast.error(getErrorMessage(error, 'Failed to register'));
+          toast.error(
+            getErrorMessage(error, 'Registration failed. Please try again.'),
+          );
           return false;
         }
       },
@@ -69,7 +76,7 @@ export const useAuthStore = create<
       logout: () => {
         localStorage.removeItem('token');
         set(initialState);
-        toast.success('Logged out successfully');
+        toast.success('Logged out successfully.');
       },
 
       clearError: () => set({ error: null }),

@@ -1,11 +1,12 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
 import { HelmetProvider } from 'react-helmet-async';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import Home from './pages/Home';
 import Signin from './pages/Signin';
 import Signup from './pages/Signup';
 import ForgotPassword from './pages/ForgotPassword';
-import NewPassword from './pages/NewPassword';
+import ResetPassword from './pages/ResetPassword';
 import NotFoundPage from './pages/404';
 import PublicRoute from './components/PublicRoute';
 
@@ -30,8 +31,8 @@ const router = createBrowserRouter([
         element: <ForgotPassword />,
       },
       {
-        path: '/new-password',
-        element: <NewPassword />,
+        path: '/reset-password/:token',
+        element: <ResetPassword />,
       },
     ],
   },
@@ -41,11 +42,22 @@ const router = createBrowserRouter([
   },
 ]);
 
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 1000 * 60 * 5, // 5 minutes
+      refetchOnWindowFocus: false,
+    },
+  },
+});
+
 export default function App() {
   return (
     <HelmetProvider>
-      <RouterProvider router={router} />
-      <Toaster position='top-center' toastOptions={{ duration: 3000 }} />
+      <QueryClientProvider client={queryClient}>
+        <RouterProvider router={router} />
+        <Toaster position='top-center' toastOptions={{ duration: 4000 }} />
+      </QueryClientProvider>
     </HelmetProvider>
   );
 }

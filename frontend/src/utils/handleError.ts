@@ -2,7 +2,7 @@ import axios from 'axios';
 
 const getErrorMessage = (
   error: unknown,
-  defaultMessage = 'An error occurred',
+  defaultMessage = 'An error occurred. Please try again.',
 ): string => {
   if (axios.isAxiosError(error)) {
     return error.response?.data?.message || defaultMessage;
