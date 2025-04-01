@@ -69,3 +69,24 @@
     text-wrap: balance;
   }
 }
+
+@keyframes bounce {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-4px);
+  }
+}
+
+.animate-bounce {
+  animation: bounce 1s infinite ease-in-out;
+}
+
+/* Optional: Add smooth transitions for the chat interface */
+.transition-all {
+  transition-property: all;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+}
