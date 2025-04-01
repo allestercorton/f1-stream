@@ -37,11 +37,20 @@
     --radius: 0.5rem;
   }
 
+  html {
+    scroll-behavior: smooth;
+    overflow-anchor: none;
+    scrollbar-gutter: stable;
+  }
+
   body {
     @apply bg-black text-white;
     font-family: 'Inter', sans-serif;
     font-feature-settings: 'ss01', 'ss03', 'cv01', 'cv02', 'cv03', 'cv04';
     -webkit-font-smoothing: antialiased;
+    min-height: 100vh;
+    overflow-x: hidden;
+    position: relative;
   }
 
   /* Apple-inspired scrollbar */
