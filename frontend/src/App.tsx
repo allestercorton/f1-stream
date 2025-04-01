@@ -9,6 +9,7 @@ import ForgotPassword from './pages/ForgotPassword';
 import ResetPassword from './pages/ResetPassword';
 import NotFoundPage from './pages/404';
 import PublicRoute from './components/PublicRoute';
+import Banner from './components/Banner';
 
 const router = createBrowserRouter([
   {
@@ -55,6 +56,7 @@ export default function App() {
   return (
     <HelmetProvider>
       <QueryClientProvider client={queryClient}>
+        <Banner />
         <RouterProvider router={router} />
         <Toaster position='top-center' toastOptions={{ duration: 4000 }} />
       </QueryClientProvider>

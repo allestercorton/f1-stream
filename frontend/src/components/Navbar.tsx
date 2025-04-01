@@ -18,7 +18,7 @@ const Navbar = () => {
   const { isAuthenticated, user, logout } = useAuthStore();
 
   return (
-    <header className='sticky z-50 border-b border-white/10 bg-black/90 py-4 backdrop-blur-md'>
+    <header className='border-b border-white/10 bg-black px-4 py-2'>
       <div className='container mx-auto flex items-center justify-between px-4'>
         <Link to='/'>
           <Logo />

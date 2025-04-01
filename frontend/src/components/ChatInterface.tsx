@@ -28,20 +28,36 @@ const ChatInterface = () => {
   const [isTyping, setIsTyping] = useState(false);
   const typingTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const [isSending, setIsSending] = useState(false);
+  const [hasInitialized, setHasInitialized] = useState(false);
 
-  // Auto-scroll to bottom when new messages arrive or typing indicators change
+  // Auto-scroll to bottom only within chat container
   useEffect(() => {
+    if (!hasInitialized) {
+      setHasInitialized(true);
+      return;
+    }
+
     const scrollArea = scrollAreaRef.current;
     if (!scrollArea) return;
 
+    // Calculate if we're near the bottom (within 100px)
     const isNearBottom =
       scrollArea.scrollHeight - scrollArea.scrollTop <=
       scrollArea.clientHeight + 100;
 
     if (isNearBottom) {
-      scrollToBottomRef.current?.scrollIntoView({ behavior: 'smooth' });
+      // Use smooth scroll only for user-initiated messages
+      const behavior = messages[messages.length - 1]?.isCurrentUser
+        ? 'smooth'
+        : 'auto';
+
+      scrollToBottomRef.current?.scrollIntoView({
+        behavior,
+        block: 'nearest',
+        inline: 'nearest',
+      });
     }
-  }, [messages, typingUsers]);
+  }, [messages, typingUsers, hasInitialized]);
 
   // Handle typing status with debounce
   useEffect(() => {
@@ -147,7 +163,13 @@ const ChatInterface = () => {
         }`}
         style={{ transitionProperty: 'max-height, opacity' }}
       >
-        <ScrollArea className='h-full p-3' ref={scrollAreaRef}>
+        <ScrollArea
+          className='h-full p-3'
+          ref={scrollAreaRef}
+          onPointerEnter={() => {
+            setHasInitialized(false); // Pause auto-scroll when user interacts
+          }}
+        >
           <div className='space-y-3'>
             {messages.map((message) => {
               const timestamp = new Date(message.timestamp);
@@ -227,7 +249,7 @@ const ChatInterface = () => {
 
       {/* Input area with enhanced smooth transition */}
       <div
-        className={`border-t border-purple-900/50 bg-gray-900 transition-all duration-700 ease-in-out ${
+        className={`border-t border-white/10 bg-gray-900 transition-all duration-700 ease-in-out ${
           isChatExpanded
             ? 'max-h-20 translate-y-0 transform p-3 opacity-100'
             : 'max-h-0 translate-y-10 transform overflow-hidden p-0 opacity-0'
