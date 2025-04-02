@@ -5,6 +5,7 @@ import helmet from 'helmet';
 import morgan from 'morgan';
 import { errorHandler } from './middleware/error.middleware';
 import authRoutes from './routes/auth.routes';
+import raceRoutes from './routes/race.routes';
 
 const app = express();
 
@@ -22,6 +23,7 @@ app.use(morgan('dev'));
 
 // Routes
 app.use('/api/auth', authRoutes);
+app.use('/api/races', raceRoutes);
 
 // Error handler middleware
 app.use(errorHandler);

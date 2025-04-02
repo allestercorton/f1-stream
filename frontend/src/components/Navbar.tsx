@@ -18,15 +18,15 @@ const Navbar = () => {
   const { isAuthenticated, user, logout } = useAuthStore();
 
   return (
-    <header className='border-b border-white/10 bg-black px-4 py-2'>
-      <div className='container mx-auto flex items-center justify-between px-4'>
+    <header className='border-b border-white/10 bg-black px-5 py-2'>
+      <div className='container mx-auto flex items-center justify-between px-0'>
         <Link to='/'>
           <Logo />
         </Link>
 
         {isAuthenticated ? (
           <DropdownMenu>
-            <DropdownMenuTrigger asChild>
+            <DropdownMenuTrigger asChild className='px-0'>
               <Button
                 variant='ghost'
                 className='rounded-full hover:bg-transparent'

@@ -9,7 +9,7 @@
     "start": "node dist/server.js",
     "lint": "eslint . --ext .ts",
     "token": "node -e \"console.log(require('crypto').randomBytes(64).toString('hex'));\"",
-    "seed": "node backend/seed/seeder.ts"
+    "seed": "tsx backend/seed/races.ts"
   },
   "keywords": [],
   "author": "Allester Corton",
@@ -30,6 +30,7 @@
     "mongoose": "^8.12.2",
     "morgan": "^1.10.0",
     "nodemailer": "^6.10.0",
+    "socket.io": "^4.8.1",
     "zod": "^3.24.2"
   },
   "devDependencies": {
@@ -41,6 +42,7 @@
     "@types/morgan": "^1.9.9",
     "@types/node": "^22.13.11",
     "@types/nodemailer": "^6.4.17",
+    "@types/socket.io": "^3.0.1",
     "@typescript-eslint/eslint-plugin": "^8.27.0",
     "@typescript-eslint/parser": "^8.27.0",
     "eslint": "^9.23.0",
