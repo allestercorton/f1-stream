@@ -39,8 +39,6 @@
 
   html {
     scroll-behavior: smooth;
-    overflow-anchor: none;
-    scrollbar-gutter: stable;
   }
 
   body {

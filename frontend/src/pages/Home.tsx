@@ -1,8 +1,9 @@
-import { Helmet } from 'react-helmet-async';
-import ChatInterface from '@/components/ChatInterface';
-import LiveStream from '@/components/LiveStream';
-import Navbar from '@/components/Navbar';
 import { useState, useEffect } from 'react';
+import { Helmet } from 'react-helmet-async';
+import Navbar from '@/components/Navbar';
+import RaceCountdown from '@/components/RaceCountdown';
+import LiveStream from '@/components/LiveStream';
+import ChatInterface from '@/components/ChatInterface';
 
 export default function Home() {
   const [isMobile, setIsMobile] = useState(false);
@@ -28,15 +29,12 @@ export default function Home() {
       </Helmet>
       <main className='min-h-screen bg-black text-white'>
         <Navbar />
-        <div className='container mx-auto px-4 py-6'>
-          {/* Adjusted grid layout to give chat more space on widescreen */}
+        <div className='container mx-auto mt-3 space-y-3 px-4'>
+          <RaceCountdown />
           <div className='grid h-[calc(100vh-120px)] grid-cols-1 gap-6 lg:grid-cols-3'>
-            {/* Livestream takes 2/3 of the space on larger screens */}
             <div className='relative h-full overflow-hidden rounded-2xl border border-white/10 bg-gray-950 lg:col-span-2'>
               <LiveStream />
             </div>
-
-            {/* Chat interface - full width on mobile, 1/3 on desktop */}
             <div
               className={`h-full overflow-hidden rounded-2xl border border-white/10 bg-gray-950 ${
                 isMobile ? 'max-h-[40vh]' : 'max-h-[calc(100vh-120px)]'
