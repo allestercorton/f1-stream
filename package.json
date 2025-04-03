@@ -5,14 +5,14 @@
   "main": "dist/server.js",
   "scripts": {
     "dev": "tsx watch backend/server.ts",
-    "build": "tsc",
+    "build": "tsc --noEmit && tsc",
     "start": "node dist/server.js",
     "token": "node -e \"console.log(require('crypto').randomBytes(64).toString('hex'));\"",
     "seed": "tsx backend/seed/races.ts",
     "lint": "eslint backend",
     "lint:fix": "eslint backend --fix",
     "prod:install": "npm install --omit=dev",
-    "prod:build": "npm run build",
+    "prod:build": "npm install --include=dev && npm run build",
     "prod:start": "node dist/server.js"
   },
   "keywords": [],
@@ -36,9 +36,7 @@
     "nodemailer": "^6.10.0",
     "socket.io": "^4.8.1",
     "winston": "^3.17.0",
-    "zod": "^3.24.2"
-  },
-  "devDependencies": {
+    "zod": "^3.24.2",
     "@eslint/js": "^9.23.0",
     "@types/argon2": "^0.14.1",
     "@types/cookie-parser": "^1.4.8",
@@ -53,7 +51,9 @@
     "@types/socket.io": "^3.0.1",
     "@types/winston": "^2.4.4",
     "@typescript-eslint/eslint-plugin": "^8.29.0",
-    "@typescript-eslint/parser": "^8.29.0",
+    "@typescript-eslint/parser": "^8.29.0"
+  },
+  "devDependencies": {
     "eslint": "^8.57.0",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-config-prettier": "^10.1.1",
