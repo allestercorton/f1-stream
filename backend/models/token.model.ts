@@ -1,6 +1,6 @@
 import { prop, getModelForClass, type Ref } from '@typegoose/typegoose';
 import crypto from 'crypto';
-import { User } from './user.model';
+import { User } from './user.model.js';
 
 export class PasswordResetToken {
   @prop({ ref: () => User, required: true, index: true })

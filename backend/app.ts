@@ -3,9 +3,9 @@ import express from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
 import morgan from 'morgan';
-import { errorHandler } from './middleware/error.middleware';
-import authRoutes from './routes/auth.routes';
-import raceRoutes from './routes/race.routes';
+import { errorHandler } from './middleware/error.middleware.js';
+import authRoutes from './routes/auth.routes.js';
+import raceRoutes from './routes/race.routes.js';
 
 const app = express();
 

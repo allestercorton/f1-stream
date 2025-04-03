@@ -1,17 +1,17 @@
 import type { Server as HttpServer } from 'http';
 import { Server } from 'socket.io';
 import { Types } from 'mongoose';
-import UserModel from './models/user.model';
-import { MessageModel } from './models/message.model';
-import { verifyToken } from './utils/token';
+import UserModel from './models/user.model.js';
+import { MessageModel } from './models/message.model.js';
+import { verifyToken } from './utils/token.js';
 import {
   ChatMessage,
   SocketData,
   TypingUser,
   ClientToServerEvents,
   ServerToClientEvents,
-} from './types/socket';
-import logger from './utils/logger';
+} from './types/socket.js';
+import logger from './utils/logger.js';
 
 /**
  * Initializes the Socket.IO server and sets up real-time chat functionality.

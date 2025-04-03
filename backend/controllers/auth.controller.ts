@@ -6,13 +6,13 @@ import {
   registerSchema,
   forgotPasswordSchema,
   resetPasswordSchema,
-} from '../utils/validation';
-import UserModel from '../models/user.model';
-import { generateToken } from '../utils/token';
-import { AuthRequest } from '../types';
-import { sendEmail } from '../utils/email';
-import PasswordResetTokenModel from '../models/token.model';
-import logger from '../utils/logger';
+} from '../utils/validation.js';
+import UserModel from '../models/user.model.js';
+import { generateToken } from '../utils/token.js';
+import { AuthRequest } from '../types/auth.js';
+import { sendEmail } from '../utils/email.js';
+import PasswordResetTokenModel from '../models/token.model.js';
+import logger from '../utils/logger.js';
 
 /**
  * @desc    Register a new user

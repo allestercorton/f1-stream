@@ -1,10 +1,10 @@
 import asyncHandler from 'express-async-handler';
 import createHttpError from 'http-errors';
 import type { Response, NextFunction } from 'express';
-import { verifyToken } from '../utils/token';
-import UserModel from '../models/user.model';
-import type { AuthRequest } from '../types';
-import logger from '../utils/logger';
+import { verifyToken } from '../utils/token.js';
+import UserModel from '../models/user.model.js';
+import type { AuthRequest } from '../types/auth.js';
+import logger from '../utils/logger.js';
 
 // Middleware to protect routes
 export const protect = asyncHandler(
