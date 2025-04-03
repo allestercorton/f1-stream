@@ -2,7 +2,7 @@
   "name": "f1-stream-backend",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "dist/server.js",
   "scripts": {
     "dev": "tsx watch backend/server.ts",
     "build": "tsc",
