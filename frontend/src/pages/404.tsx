@@ -1,12 +1,12 @@
 import { Link } from 'react-router-dom';
-import { Helmet } from 'react-helmet-async';
 import Navbar from '@/components/Navbar';
 import { Button } from '@/components/ui/button';
 
 export default function NotFound() {
   return (
     <>
-      <Helmet>
+      {/* Metadata tags */}
+      <>
         {/* Primary Meta Tags */}
         <title>F1Stream - Page Not Found</title>
         <meta
@@ -52,7 +52,7 @@ export default function NotFound() {
             url: 'https://f1stream.vercel.app/404',
           })}
         </script>
-      </Helmet>
+      </>
       <div className='flex min-h-screen flex-col bg-black'>
         <Navbar />
         <div className='flex flex-1 flex-col items-center justify-center p-4 text-center'>

@@ -1,7 +1,6 @@
 import { Link } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Helmet } from 'react-helmet-async';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import Navbar from '@/components/Navbar';
@@ -36,7 +35,8 @@ export default function ForgotPassword() {
 
   return (
     <>
-      <Helmet>
+      {/* Metadata tags */}
+      <>
         {/* Primary Meta Tags */}
         <title>F1Stream - Forgot Password</title>
         <meta
@@ -90,7 +90,7 @@ export default function ForgotPassword() {
             image: 'https://f1stream.vercel.app/preview.png',
           })}
         </script>
-      </Helmet>
+      </>
       <div className='flex min-h-screen flex-col bg-black'>
         <Navbar />
 
