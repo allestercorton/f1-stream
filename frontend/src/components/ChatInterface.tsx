@@ -11,6 +11,7 @@ import { getInitials } from '@/utils/getInitials';
 import { useChatSocket } from '@/hooks/useChatSocket';
 import { useAuthStore } from '@/store/authStore';
 import { AvatarGroup } from './ui/avatar-group';
+import EmojiPicker from './EmojiPicker';
 
 const ChatInterface = () => {
   const [message, setMessage] = useState('');
@@ -29,6 +30,7 @@ const ChatInterface = () => {
   const typingTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const [isSending, setIsSending] = useState(false);
   const [hasInitialized, setHasInitialized] = useState(false);
+  const inputRef = useRef<HTMLInputElement>(null);
 
   // Auto-scroll to bottom only within chat container
   useEffect(() => {
@@ -110,6 +112,18 @@ const ChatInterface = () => {
     }
   };
 
+  const handleEmojiSelect = (emoji: string) => {
+    setMessage((prev) => prev + emoji);
+    // Focus the input after emoji selection
+    inputRef.current?.focus();
+
+    // Set typing status
+    if (!isTyping) {
+      setIsTyping(true);
+      sendTypingStatus(true);
+    }
+  };
+
   // Filter out current user from typing users
   const activeTypingUsers = typingUsers.filter((u) => u.id !== user?.id);
 
@@ -186,19 +200,27 @@ const ChatInterface = () => {
                     </Avatar>
                   )}
                   <div
-                    className={`max-w-[80%] break-words rounded-lg px-3 py-2 text-sm sm:max-w-[75%] ${
-                      message.isCurrentUser ? 'bg-gray-800' : 'bg-gray-900'
+                    className={`relative max-w-[80%] break-words rounded-lg px-3 py-2 text-sm sm:max-w-[75%] ${
+                      message.isCurrentUser
+                        ? 'bg-blue-600/80 text-white'
+                        : 'bg-gray-200 text-gray-900'
                     }`}
                   >
-                    <div className='mb-1 flex flex-wrap justify-between gap-1'>
-                      <span className='text-xs font-medium'>
-                        {message.user.name}
-                      </span>
-                      <span className='text-xs text-gray-500'>
-                        {formatTime(timestamp)}
-                      </span>
+                    <div className='relative z-10'>
+                      <div className='mb-1 flex flex-wrap justify-between gap-1'>
+                        <span
+                          className={`text-xs font-medium ${message.isCurrentUser ? 'text-blue-100' : 'text-gray-700'}`}
+                        >
+                          {message.user.name}
+                        </span>
+                        <span
+                          className={`text-xs ${message.isCurrentUser ? 'text-blue-200' : 'text-gray-500'}`}
+                        >
+                          {formatTime(timestamp)}
+                        </span>
+                      </div>
+                      <p className='break-words'>{message.content}</p>
                     </div>
-                    <p className='break-words'>{message.content}</p>
                   </div>
                   {message.isCurrentUser && (
                     <Avatar className='h-6 w-6 shrink-0 bg-gray-800'>
@@ -221,23 +243,26 @@ const ChatInterface = () => {
                   max={3}
                   size='sm'
                 />
-                <div className='flex flex-col gap-1 rounded-lg bg-gray-900 px-3 py-2'>
-                  <span className='text-xs text-gray-400'>
-                    {getTypingText(activeTypingUsers)}
-                  </span>
-                  <div className='flex gap-1'>
-                    <div
-                      className='h-2 w-2 animate-bounce rounded-full bg-gray-400'
-                      style={{ animationDelay: '0ms' }}
-                    />
-                    <div
-                      className='h-2 w-2 animate-bounce rounded-full bg-gray-400'
-                      style={{ animationDelay: '150ms' }}
-                    />
-                    <div
-                      className='h-2 w-2 animate-bounce rounded-full bg-gray-400'
-                      style={{ animationDelay: '300ms' }}
-                    />
+                <div className='relative flex flex-col gap-1 rounded-lg bg-gray-200 px-3 py-2'>
+                  <div className='absolute left-[-5px] top-2 h-3 w-3 rotate-45 bg-gray-200'></div>
+                  <div className='relative z-10'>
+                    <span className='text-xs text-gray-600'>
+                      {getTypingText(activeTypingUsers)}
+                    </span>
+                    <div className='flex gap-1'>
+                      <div
+                        className='h-2 w-2 animate-bounce rounded-full bg-gray-500'
+                        style={{ animationDelay: '0ms' }}
+                      />
+                      <div
+                        className='h-2 w-2 animate-bounce rounded-full bg-gray-500'
+                        style={{ animationDelay: '150ms' }}
+                      />
+                      <div
+                        className='h-2 w-2 animate-bounce rounded-full bg-gray-500'
+                        style={{ animationDelay: '300ms' }}
+                      />
+                    </div>
                   </div>
                 </div>
               </div>
@@ -260,13 +285,19 @@ const ChatInterface = () => {
       >
         {user ? (
           <form onSubmit={handleSubmit} className='flex gap-2'>
-            <Input
-              value={message}
-              onChange={handleInputChange}
-              placeholder='Type a message...'
-              className='bg-gray-900'
-              disabled={!user || !isChatExpanded}
-            />
+            <div className='relative flex flex-1 items-center'>
+              <Input
+                ref={inputRef}
+                value={message}
+                onChange={handleInputChange}
+                placeholder='Type a message...'
+                className='bg-gray-900 pr-10'
+                disabled={!user || !isChatExpanded}
+              />
+              <div className='absolute right-2'>
+                <EmojiPicker onEmojiSelect={handleEmojiSelect} />
+              </div>
+            </div>
             <Button
               type='submit'
               size='icon'
