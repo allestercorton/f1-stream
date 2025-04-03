@@ -1,0 +1,28 @@
+services:
+  - type: web
+    name: f1-stream-backend
+    runtime: node
+    buildCommand: npm install && npm run build
+    startCommand: npm start
+    env: node
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 5000
+      - key: CLIENT_URL
+        value: https://f1stream.vercel.app
+      - key: MONGO_URI
+        fromDatabase:
+          name: f1stream
+          property: connectionString
+      - key: JWT_SECRET
+        value: 06acb4a25f3bfdd42c4f9df7e81436ac298f395732263de35c78c70eebf444b43961d3aac3659b577a8d329104f268c190337d1199d51d8003c32b530a9fb9e3
+      - key: EMAIL_SERVICE
+        value: gmail
+      - key: EMAIL_FROM
+        value: cortonallester@gmail.com
+      - key: EMAIL_USERNAME
+        value: projectqr00@gmail.com
+      - key: EMAIL_PASSWORD
+        value: jalrejeyeajpvzge

@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import { Helmet } from 'react-helmet-async';
 import Navbar from '@/components/Navbar';
 import RaceCountdown from '@/components/RaceCountdown';
 import LiveStream from '@/components/LiveStream';
@@ -24,7 +23,8 @@ export default function Home() {
 
   return (
     <>
-      <Helmet>
+      {/* Metadata tags */}
+      <>
         {/* Primary Meta Tags */}
         <title>F1Stream - Watch Live F1 Streams</title>
         <meta
@@ -79,7 +79,7 @@ export default function Home() {
             image: 'https://f1stream.vercel.app/preview.png',
           })}
         </script>
-      </Helmet>
+      </>
       <main className='min-h-screen bg-black text-white'>
         <Navbar />
         <div className='container mx-auto mt-3 space-y-3 px-4'>

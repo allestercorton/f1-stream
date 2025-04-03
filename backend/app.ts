@@ -1,9 +1,9 @@
 import 'dotenv/config';
-import express from 'express';
+import express, { Request, Response } from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
 import morgan from 'morgan';
-import { errorHandler } from './middleware/error.middleware.js';
+import errorHandler from './middleware/error.middleware.js';
 import authRoutes from './routes/auth.routes.js';
 import raceRoutes from './routes/race.routes.js';
 
@@ -25,7 +25,15 @@ app.use(morgan('dev'));
 app.use('/api/auth', authRoutes);
 app.use('/api/races', raceRoutes);
 
+// healthy checks
+app.get('/health', (_req: Request, res: Response) => {
+  res.status(200).json({ status: 'healthy' });
+});
+
 // Error handler middleware
 app.use(errorHandler);
+
+// Trust the first proxy
+app.set('trust proxy', 1);
 
 export default app;

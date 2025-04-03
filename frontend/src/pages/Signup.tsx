@@ -1,7 +1,6 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Helmet } from 'react-helmet-async';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import Navbar from '@/components/Navbar';
@@ -31,7 +30,8 @@ export default function Signup() {
 
   return (
     <>
-      <Helmet>
+      {/* Metadata tags */}
+      <>
         {/* Primary Meta Tags */}
         <title>F1Stream - Sign Up</title>
         <meta
@@ -79,7 +79,7 @@ export default function Signup() {
             image: 'https://f1stream.vercel.app/preview.png',
           })}
         </script>
-      </Helmet>
+      </>
       <div className='flex min-h-screen flex-col bg-black'>
         <Navbar />
 

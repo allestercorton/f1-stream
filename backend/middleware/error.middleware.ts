@@ -1,5 +1,10 @@
-import type { Request, Response, NextFunction } from 'express';
-import { HttpError } from 'http-errors';
+import type {
+  Request,
+  Response,
+  NextFunction,
+  ErrorRequestHandler,
+} from 'express';
+import createHttpError from 'http-errors';
 import { Error as MongooseError } from 'mongoose';
 import { ZodError } from 'zod';
 
@@ -18,7 +23,7 @@ interface ValidationError {
   message: string;
 }
 
-export const errorHandler = (
+const errorHandler: ErrorRequestHandler = (
   err: unknown,
   _req: Request,
   res: Response,
@@ -28,7 +33,7 @@ export const errorHandler = (
   let message = 'Server Error';
   let errors: ValidationError[] | null = null;
 
-  if (err instanceof HttpError) {
+  if (err instanceof createHttpError.HttpError) {
     statusCode = err.statusCode;
     message = err.message;
   } else if (err instanceof ZodError) {
@@ -41,12 +46,10 @@ export const errorHandler = (
   } else if (err instanceof MongooseError.ValidationError) {
     statusCode = 400;
     message = 'Validation Error';
-    errors = Object.values((err as MongooseError.ValidationError).errors).map(
-      (e) => ({
-        field: (e as MongooseValidationErrorItem).path,
-        message: (e as MongooseValidationErrorItem).message,
-      })
-    );
+    errors = Object.values(err.errors).map((e) => ({
+      field: (e as MongooseValidationErrorItem).path,
+      message: (e as MongooseValidationErrorItem).message,
+    }));
   } else if (isDuplicateKeyError(err)) {
     statusCode = 400;
     message = 'Duplicate field value';
@@ -65,11 +68,9 @@ export const errorHandler = (
     message,
     errors,
     stack:
-      err instanceof Error && process.env.NODE_ENV === 'production'
-        ? null
-        : err instanceof Error
-          ? err.stack
-          : null,
+      process.env.NODE_ENV === 'development' && err instanceof Error
+        ? err.stack
+        : undefined,
   });
 };
 
@@ -82,3 +83,5 @@ function isDuplicateKeyError(err: unknown): err is DuplicateKeyError {
     'keyValue' in err
   );
 }
+
+export default errorHandler;

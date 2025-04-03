@@ -1,13 +1,13 @@
 {
   "compilerOptions": {
     "target": "ES2022",
-    "module": "NodeNext",
+    "module": "ESNext",
     "outDir": "./dist",
     "rootDir": "./backend",
     "strict": true,
     "esModuleInterop": true,
     "experimentalDecorators": true,
-    "moduleResolution": "NodeNext",
+    "moduleResolution": "node",
     "baseUrl": "./",
     "paths": {
       "@backend/*": ["./backend/*"]
