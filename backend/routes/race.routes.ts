@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { getNextRace } from '../controllers/race.controller';
+import { getNextRace } from '../controllers/race.controller.js';
 
 const router = Router();
 

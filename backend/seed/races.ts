@@ -1,8 +1,8 @@
 import 'dotenv/config';
-import connectDB from '../config/db';
-import { RaceModel } from '../models/race.model';
-import { f1_2025_races } from '../data/f1_2025_races';
-import logger from '../utils/logger';
+import connectDB from '../config/db.js';
+import { RaceModel } from '../models/race.model.js';
+import { f1_2025_races } from '../data/f1_2025_races.js';
+import logger from '../utils/logger.js';
 
 const seed = async () => {
   try {

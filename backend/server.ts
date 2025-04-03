@@ -1,8 +1,8 @@
 import http from 'http';
-import app from './app';
-import connectDB from './config/db';
-import { initializeSocket } from './socket';
-import logger from './utils/logger';
+import app from './app.js';
+import connectDB from './config/db.js';
+import { initializeSocket } from './socket.js';
+import logger from './utils/logger.js';
 
 // Connect to MongoDB
 connectDB();

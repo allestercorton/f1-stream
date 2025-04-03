@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import asyncHandler from 'express-async-handler';
 import createHttpError from 'http-errors';
-import { RaceModel } from '../models/race.model';
+import { RaceModel } from '../models/race.model.js';
 
 export const getNextRace = asyncHandler(
   async (_req: Request, res: Response) => {
