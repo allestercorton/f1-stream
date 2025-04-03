@@ -1,79 +1,69 @@
-# 🏎️ F1 STREAM
+# F1Stream
 
-![Project Preview](./preview.png)
+![F1Stream Preview](./frontend/public/preview.png)
 
-## 🚀 Overview
+F1Stream is an open-source web application that allows users to watch **live Formula 1 races** for free, interact in a **real-time global chat**, and stay updated with the **next race session countdown**. The project is designed with a **minimal dark mode UI**, inspired by Apple's UI/UX principles.
 
-A **cyberpunk-themed** F1 STREAM where users can watch **livestream for free** and engage in a **real-time global chat**. Only authenticated users can participate in the chat, ensuring a secure and interactive experience.
+## 🚀 Features
+
+- **Live F1 Streams** – Instantly watch Formula 1 races without any sign-up.
+- **Real-Time Global Chat** – Engage with other F1 fans worldwide using Socket.io.
+- **Next Race Countdown** – Stay informed about upcoming sessions with a live timer.
+- **User Authentication** – Sign up, log in, and reset passwords securely.
+- **Guest Access** – Visitors can view the livestream and chat without signing up, but authentication is required to participate in the chat.
+
+## 🛠 Tech Stack
+
+- **Frontend:** React (TypeScript)
+- **Backend:** Node.js, Express, MongoDB (MERN stack + TypeScript)
+- **Real-Time Communication:** Socket.io
+- **State Management:** Zustand & TanStack Query
+- **Authentication:** JWT-based authentication with password reset
+- **Deployment:** Vercel (Frontend), Render (Backend)
+
+## 🎨 UI/UX Design
+
+- **Minimal dark mode interface**, inspired by Apple's design principles.
+- **Intuitive and accessible layout** for a smooth user experience.
 
 ---
 
-## 🌌 Features
+### 🌎 Live Demo
 
-- 🎥 **Free Live streaming** - No authentication required to watch.
-- 💬 **Global Chat** - Only available for authenticated users.
-- 🔐 **Authentication System** - Secure login and registration.
-- ⚡ **Real-time Chat** - Powered by **Socket.IO** for instant messaging.
-- 🎨 **Cyberpunk UI** - A sleek, futuristic design using **ShadCN UI & Tailwind CSS**.
-- 🛠 **Tech Stack:** MERN (MongoDB, Express, React, Node.js) + TypeScript
+[🔗 Visit F1Stream](https://f1stream.vercel.app/)
 
----
-
-## 📂 Installation
-
-### **Backend Setup**
+### 🛠 Installation & Setup
 
 ```sh
+# Clone the repository
+git clone https://github.com/allestercorton/f1-stream.git
+cd f1stream
+
+# Install dependencies for the backend
 npm install
+
+# Start the backend development server
+npm run dev
+
+# Change directory to ./frontend and install dependencies for the frontend
+cd frontend && npm install
+
+# Start the frontend development server
 npm run dev
 ```
-
-### **Frontend Setup**
-
-```sh
-cd frontend
-npm install
-npm run dev
-```
-
----
-
-## 🔗 Technologies Used
-
-### **Backend:**
-
-- 🟢 **Node.js + Express** (TypeScript)
-- 🟡 **MongoDB + Mongoose (Typegoose)**
-- 🛡️ **Zod for validation**
-- ⚙️ **Express Async Handler + HTTP Errors**
-
-### **Frontend:**
-
-- ⚛️ **React + TypeScript**
-- 🎨 **Tailwind CSS + ShadCN UI**
-- 🔄 **Tanstack Query + Zustand**
-- 🗨 **React Hook Form + React Helmet Async**
-
-### **Real-time Communication:**
-
-- 📡 **Socket.IO** (for live chat)
-
----
 
 ## 📜 License
 
-This project is **MIT Licensed** 📝
+This project is **open-source** under the **MIT License**.
+
+## 👨‍💻 Creator
+
+Developed by **Allester Corton**. Contributions and feedback are welcome!
+
+### 🤝 Contributing
+
+Feel free to submit issues or pull requests to improve the project!
 
 ---
 
-## 👤 Creator
-
-🚀 **Allester Corton** - Developer of this project.
-
-Feel free to fork, contribute, or use it in your own projects. 🔥
-
----
-
-## 🎭 Cyberpunk Vibes ⚡
-
-> _"The future is now, old man!"_ 🦾🔥
+Enjoy the races! 🏎️🔥

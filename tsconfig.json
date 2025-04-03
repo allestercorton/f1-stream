@@ -1,12 +1,20 @@
 {
   "compilerOptions": {
-    "target": "ESNext",
-    "module": "CommonJS",
-    "outDir": "dist",
-    "rootDir": "backend",
+    "target": "ES2022",
+    "module": "NodeNext",
+    "outDir": "./dist",
+    "rootDir": "./backend",
     "strict": true,
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "experimentalDecorators": true,
+    "moduleResolution": "NodeNext",
+    "baseUrl": "./",
+    "paths": {
+      "@backend/*": ["./backend/*"]
+    },
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true
   },
-  "include": ["backend"],
-  "exclude": ["node_modules"]
+  "include": ["backend/**/*.ts"],
+  "exclude": ["node_modules", "dist"]
 }

@@ -1,14 +1,31 @@
+import 'dotenv/config';
 import express from 'express';
+import cors from 'cors';
+import helmet from 'helmet';
 import morgan from 'morgan';
+import { errorHandler } from './middleware/error.middleware.js';
+import authRoutes from './routes/auth.routes.js';
+import raceRoutes from './routes/race.routes.js';
 
 const app = express();
-export const NODE_ENV = process.env.NODE_ENV || 'development';
 
-app.use(morgan('dev'));
+// Middleware
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(
+  cors({
+    origin: process.env.CLIENT_URL || 'http://localhost:5173',
+    credentials: true,
+  })
+);
+app.use(helmet());
+app.use(morgan('dev'));
 
-app.get('/', (req, res) => {
-  res.json({ message: 'Server is running!' });
-});
+// Routes
+app.use('/api/auth', authRoutes);
+app.use('/api/races', raceRoutes);
+
+// Error handler middleware
+app.use(errorHandler);
 
 export default app;
