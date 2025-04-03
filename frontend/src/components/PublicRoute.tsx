@@ -2,9 +2,9 @@ import { Navigate, Outlet } from 'react-router-dom';
 import { useAuthStore } from '../store/authStore';
 
 const PublicRoute = () => {
-  const { isAuthenticated, isLoading } = useAuthStore();
+  const { isAuthenticated, isPending } = useAuthStore();
 
-  if (isLoading) return null;
+  if (isPending) return null;
 
   return isAuthenticated ? <Navigate to='/' replace /> : <Outlet />;
 };
