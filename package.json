@@ -7,9 +7,10 @@
     "dev": "tsx watch backend/server.ts",
     "build": "tsc",
     "start": "node dist/server.js",
-    "lint": "eslint . --ext .ts",
     "token": "node -e \"console.log(require('crypto').randomBytes(64).toString('hex'));\"",
-    "seed": "tsx backend/seed/races.ts"
+    "seed": "tsx backend/seed/races.ts",
+    "lint": "eslint backend --ext .ts",
+    "lint:fix": "eslint backend --ext .ts --fix"
   },
   "keywords": [],
   "author": "Allester Corton",
@@ -34,6 +35,7 @@
     "zod": "^3.24.2"
   },
   "devDependencies": {
+    "@eslint/js": "^9.23.0",
     "@types/cookie-parser": "^1.4.8",
     "@types/cors": "^2.8.17",
     "@types/express": "^5.0.1",
@@ -43,11 +45,14 @@
     "@types/node": "^22.13.11",
     "@types/nodemailer": "^6.4.17",
     "@types/socket.io": "^3.0.1",
-    "@typescript-eslint/eslint-plugin": "^8.27.0",
-    "@typescript-eslint/parser": "^8.27.0",
+    "@typescript-eslint/eslint-plugin": "^8.29.0",
+    "@typescript-eslint/parser": "^8.29.0",
     "eslint": "^9.23.0",
+    "eslint-config-airbnb-base": "^15.0.0",
     "eslint-config-prettier": "^10.1.1",
+    "eslint-plugin-import": "^2.31.0",
     "eslint-plugin-prettier": "^5.2.3",
+    "globals": "^16.0.0",
     "prettier": "^3.5.3",
     "tsx": "^4.19.3",
     "typescript": "^5.8.2"
