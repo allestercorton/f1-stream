@@ -1,6 +1,6 @@
 # F1Stream
 
-![F1Stream Preview](./public/preview.png)
+![F1Stream Preview](./frontend/public/preview.png)
 
 F1Stream is an open-source web application that allows users to watch **live Formula 1 races** for free, interact in a **real-time global chat**, and stay updated with the **next race session countdown**. The project is designed with a **minimal dark mode UI**, inspired by Apple's UI/UX principles.
 
@@ -26,14 +26,6 @@ F1Stream is an open-source web application that allows users to watch **live For
 - **Minimal dark mode interface**, inspired by Apple's design principles.
 - **Intuitive and accessible layout** for a smooth user experience.
 
-## 📜 License
-
-This project is **open-source** under the **MIT License**.
-
-## 👨‍💻 Creator
-
-Developed by **Allester Corton**. Contributions and feedback are welcome!
-
 ---
 
 ### 🌎 Live Demo
@@ -47,12 +39,26 @@ Developed by **Allester Corton**. Contributions and feedback are welcome!
 git clone https://github.com/allestercorton/f1-stream.git
 cd f1stream
 
-# Install dependencies
+# Install dependencies for the backend
 npm install
 
-# Start the development server
+# Start the backend development server
+npm run dev
+
+# Change directory to ./frontend and install dependencies for the frontend
+cd frontend && npm install
+
+# Start the frontend development server
 npm run dev
 ```
+
+## 📜 License
+
+This project is **open-source** under the **MIT License**.
+
+## 👨‍💻 Creator
+
+Developed by **Allester Corton**. Contributions and feedback are welcome!
 
 ### 🤝 Contributing
 

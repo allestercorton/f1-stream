@@ -1,6 +1,6 @@
 {
-  "name": "f1-stream",
-  "version": "0.1.0",
+  "name": "f1-stream-backend",
+  "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
