@@ -12,6 +12,7 @@ import { generateToken } from '../utils/token';
 import { AuthRequest } from '../types';
 import { sendEmail } from '../utils/email';
 import PasswordResetTokenModel from '../models/token.model';
+import logger from '../utils/logger';
 
 /**
  * @desc    Register a new user
@@ -140,6 +141,7 @@ export const forgotPassword = asyncHandler(
       });
     } catch (error) {
       // If email sending fails, remove the token
+      logger.error('Sending Email error:', error);
       await PasswordResetTokenModel.deleteMany({ user: user._id });
       throw createHttpError(500, 'Email could not be sent.');
     }

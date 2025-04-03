@@ -1,3 +1,4 @@
+import logger from '../utils/logger';
 import { connect } from 'mongoose';
 
 const connectDB = async (): Promise<void> => {
@@ -5,14 +6,14 @@ const connectDB = async (): Promise<void> => {
     const MONGO_URI = process.env.MONGO_URI;
 
     if (!MONGO_URI) {
-      console.error('❌ MONGO_URI is not defined in environment variables');
+      logger.error('❌ MONGO_URI is not defined in environment variables');
       process.exit(1);
     }
 
     await connect(MONGO_URI);
-    console.log('✅ MongoDB Connected');
+    logger.info('✅ MongoDB Connected');
   } catch (error) {
-    console.error('❌ MongoDB Connection Failed:', error);
+    logger.error('❌ MongoDB Connection Failed:', error);
     process.exit(1);
   }
 };

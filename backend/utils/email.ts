@@ -1,4 +1,5 @@
 import nodemailer from 'nodemailer';
+import logger from './logger';
 
 interface EmailOptions {
   email: string;
@@ -70,12 +71,12 @@ export const sendEmail = async (options: EmailOptions): Promise<void> => {
 
     // Log URL for Ethereal emails (development only)
     if (process.env.NODE_ENV === 'development') {
-      console.log(
+      logger.info(
         `📬 Preview Reset Password URL: ${nodemailer.getTestMessageUrl(info)}`
       );
     }
   } catch (error) {
-    console.error('❌ Failed to send email:', error);
+    logger.error('❌ Failed to send email:', error);
     throw new Error('Email sending failed.');
   }
 };

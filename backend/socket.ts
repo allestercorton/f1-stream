@@ -11,6 +11,7 @@ import {
   ClientToServerEvents,
   ServerToClientEvents,
 } from './types/socket';
+import logger from './utils/logger';
 
 /**
  * Initializes the Socket.IO server and sets up real-time chat functionality.
@@ -19,22 +20,20 @@ import {
  * @returns The initialized Socket.IO server instance.
  */
 export const initializeSocket = (httpServer: HttpServer) => {
-  const io = new Server<
-    ClientToServerEvents,
-    ServerToClientEvents,
-    {},
-    SocketData
-  >(httpServer, {
-    cors: {
-      origin: process.env.CLIENT_URL || 'http://localhost:5173',
-      methods: ['GET', 'POST'],
-      credentials: true,
-    },
-    connectionStateRecovery: {
-      maxDisconnectionDuration: 2 * 60 * 1000, // Allow reconnection within 2 minutes
-      skipMiddlewares: false,
-    },
-  });
+  const io = new Server<ClientToServerEvents, ServerToClientEvents, SocketData>(
+    httpServer,
+    {
+      cors: {
+        origin: process.env.CLIENT_URL || 'http://localhost:5173',
+        methods: ['GET', 'POST'],
+        credentials: true,
+      },
+      connectionStateRecovery: {
+        maxDisconnectionDuration: 2 * 60 * 1000, // Allow reconnection within 2 minutes
+        skipMiddlewares: false,
+      },
+    }
+  );
 
   // Map to track users currently typing in the chat
   const typingUsers = new Map<string, TypingUser>();
@@ -64,13 +63,14 @@ export const initializeSocket = (httpServer: HttpServer) => {
       };
       next();
     } catch (error) {
+      logger.error(error);
       socket.data.authenticated = false;
       next();
     }
   });
 
   io.on('connection', (socket) => {
-    console.log(`Client connected: ${socket.id}`);
+    logger.info(`Client connected: ${socket.id}`);
 
     /**
      * Adds the user to the chat room and sends the last 50 messages.
@@ -96,7 +96,7 @@ export const initializeSocket = (httpServer: HttpServer) => {
 
         socket.emit('previousMessages', formattedMessages);
       } catch (error) {
-        console.error('Chat room join error:', error);
+        logger.error('Chat room join error:', error);
         socket.emit('error', 'Failed to join chat');
       }
     };
@@ -171,7 +171,7 @@ export const initializeSocket = (httpServer: HttpServer) => {
           io.to('f1-chat').emit('chatMessage', messageData);
           callback(true);
         } catch (error) {
-          console.error('Message send error:', error);
+          logger.error('Message send error:', error);
           callback(false);
           socket.emit('error', 'Failed to send message');
         }
@@ -190,14 +190,14 @@ export const initializeSocket = (httpServer: HttpServer) => {
         }
         typingUsers.delete(socket.id);
       }
-      console.log(`Client disconnected: ${reason}`);
+      logger.info(`Client disconnected: ${reason}`);
     });
 
     /**
      * Handles socket errors.
      */
     socket.on('error', (error: Error) => {
-      console.error('Socket error:', error);
+      logger.error('Socket error:', error);
     });
 
     // Execute the function to join the chat room after connection.

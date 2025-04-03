@@ -4,6 +4,7 @@ import type { Response, NextFunction } from 'express';
 import { verifyToken } from '../utils/token';
 import UserModel from '../models/user.model';
 import type { AuthRequest } from '../types';
+import logger from '../utils/logger';
 
 // Middleware to protect routes
 export const protect = asyncHandler(
@@ -23,6 +24,7 @@ export const protect = asyncHandler(
         req.user = user;
         next();
       } catch (error) {
+        logger.error('Error: ', error);
         throw createHttpError(401, 'Unauthorized: Invalid token');
       }
     } else {
