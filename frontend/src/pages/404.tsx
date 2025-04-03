@@ -7,7 +7,51 @@ export default function NotFound() {
   return (
     <>
       <Helmet>
-        <title>F1Stream - 404</title>
+        {/* Primary Meta Tags */}
+        <title>F1Stream - Page Not Found</title>
+        <meta
+          name='description'
+          content="Oops! The page you are looking for doesn't exist. Return to F1Stream to watch live Formula 1 races."
+        />
+        <meta name='robots' content='noindex, follow' />
+        <meta name='theme-color' content='#000000' />
+
+        {/* Open Graph (Facebook, Messenger, etc.) */}
+        <meta property='og:title' content='F1Stream - 404 Not Found' />
+        <meta
+          property='og:description'
+          content="Oops! The page you are looking for doesn't exist. Return to F1Stream to watch live Formula 1 races."
+        />
+        <meta
+          property='og:image'
+          content='https://f1stream.vercel.app/preview.png'
+        />
+        <meta property='og:url' content='https://f1stream.vercel.app/404' />
+        <meta property='og:type' content='website' />
+
+        {/* Twitter Card */}
+        <meta name='twitter:card' content='summary_large_image' />
+        <meta name='twitter:title' content='F1Stream - 404 Not Found' />
+        <meta
+          name='twitter:description'
+          content="Oops! The page you are looking for doesn't exist. Return to F1Stream to watch live Formula 1 races."
+        />
+        <meta
+          name='twitter:image'
+          content='https://f1stream.vercel.app/preview.png'
+        />
+
+        {/* JSON-LD Structured Data for Google SEO */}
+        <script type='application/ld+json'>
+          {JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'WebPage',
+            name: '404 - Page Not Found',
+            description:
+              "Oops! The page you are looking for doesn't exist. Return to F1Stream to watch live Formula 1 races.",
+            url: 'https://f1stream.vercel.app/404',
+          })}
+        </script>
       </Helmet>
       <div className='flex min-h-screen flex-col bg-black'>
         <Navbar />
