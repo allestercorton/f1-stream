@@ -25,7 +25,15 @@ app.use(morgan('dev'));
 app.use('/api/auth', authRoutes);
 app.use('/api/races', raceRoutes);
 
+// healthy checks
+app.get('/health', (_req, res) => {
+  res.status(200).json({ status: 'healthy' });
+});
+
 // Error handler middleware
 app.use(errorHandler);
+
+// Trust the first proxy
+app.set('trust proxy', 1);
 
 export default app;
