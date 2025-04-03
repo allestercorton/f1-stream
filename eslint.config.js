@@ -31,7 +31,10 @@ export default [
       'no-console': 'warn',
       'no-underscore-dangle': 'off',
       'class-methods-use-this': 'off',
-      'max-len': ['error', { code: 120 }],
+      'max-len': [
+        'error',
+        { code: 120, ignoreComments: true, ignoreUrls: true },
+      ],
       '@typescript-eslint/no-unused-vars': [
         'error',
         { argsIgnorePattern: '^_' },
