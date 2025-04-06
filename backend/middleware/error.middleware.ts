@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+import logger from '../utils/logger';
 import type { Request, Response, NextFunction } from 'express';
 
 const errorHandler = (
@@ -7,9 +7,10 @@ const errorHandler = (
   res: Response,
   _next: NextFunction
 ) => {
-  res
-    .status(err.status || 500)
-    .json({ message: err.message || 'Internal Server Error' });
+  logger.error(err.stack);
+  const statusCode = err.statusCode || 500;
+  const message = err.message || 'Internal Server Error';
+  res.status(statusCode).json({ message });
 };
 
 export default errorHandler;

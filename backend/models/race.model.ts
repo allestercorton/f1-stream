@@ -29,4 +29,5 @@ export class Race {
   public hasSprint?: boolean;
 }
 
-export const RaceModel = getModelForClass(Race);
+const RaceModel = getModelForClass(Race);
+export default RaceModel;

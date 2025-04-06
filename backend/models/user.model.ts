@@ -1,7 +1,16 @@
 import { prop, getModelForClass, modelOptions } from '@typegoose/typegoose';
+import type { Types } from 'mongoose';
 
-@modelOptions({ schemaOptions: { timestamps: true } })
+@modelOptions({
+  schemaOptions: {
+    timestamps: true,
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true },
+  },
+})
 export class User {
+  _id!: Types.ObjectId;
+
   @prop({ type: String, required: true, unique: true })
   public googleId!: string;
 
@@ -18,7 +27,7 @@ export class User {
   public lastName?: string;
 
   @prop({ type: String })
-  public profilePicture!: string;
+  public profilePicture?: string;
 }
 
 const UserModel = getModelForClass(User);
