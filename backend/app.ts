@@ -11,7 +11,6 @@ import errorHandler from './middleware/error.middleware.js';
 import env from './config/env.js';
 import authRoutes from './routes/auth.routes.js';
 import userRoutes from './routes/user.routes.js';
-import raceRoutes from './routes/race.routes.js';
 
 const app = express();
 
@@ -49,7 +48,6 @@ app.use(passport.session());
 // Routes
 app.use('/auth', authRoutes);
 app.use('/api/user', userRoutes);
-app.use('/api/races', raceRoutes);
 
 // healthy checks
 app.get('/health', (_req: Request, res: Response) => {

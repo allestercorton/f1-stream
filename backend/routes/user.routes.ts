@@ -1,7 +1,7 @@
-import express from 'express';
+import { Router } from 'express';
 import { isAuthenticated } from '../middleware/auth.middleware.js';
 
-const router = express.Router();
+const router = Router();
 
 // Get user profile
 router.get('/profile', isAuthenticated, (req, res) => {

@@ -8,6 +8,7 @@ export const useAuthStore = create<AuthState>((set) => ({
   isAuthenticated: false,
   user: null,
   isPending: false,
+  hasCheckedAuth: false,
 
   checkAuthStatus: async () => {
     try {
@@ -22,6 +23,8 @@ export const useAuthStore = create<AuthState>((set) => ({
     } catch (error) {
       console.error(error);
       set({ isAuthenticated: false });
+    } finally {
+      set({ hasCheckedAuth: true });
     }
   },
 

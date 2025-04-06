@@ -12,6 +12,7 @@ export interface AuthState {
   isAuthenticated: boolean;
   user: User | null;
   isPending: boolean;
+  hasCheckedAuth: boolean;
   checkAuthStatus: () => Promise<void>;
   login: () => void;
   logout: () => Promise<void>;

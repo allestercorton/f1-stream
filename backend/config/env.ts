@@ -1,7 +1,5 @@
-import dotenv from 'dotenv';
+import 'dotenv/config';
 import { Env } from '../types/env.types.js';
-
-dotenv.config();
 
 const env: Env = {
   server: {

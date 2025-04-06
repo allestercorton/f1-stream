@@ -1,11 +1,11 @@
-import express from 'express';
+import { Router } from 'express';
 import passport from 'passport';
 import env from '../config/env.js';
 import logger from '../utils/logger.js';
 
-const router = express.Router();
+const router = Router();
 
-// Add debug logging
+// Initiates Google OAuth2 login flow
 router.get('/google', (req, res, next) => {
   logger.info('Google auth route hit');
   passport.authenticate('google', {
@@ -13,6 +13,7 @@ router.get('/google', (req, res, next) => {
   })(req, res, next);
 });
 
+// Handles the callback from Google after user grants permission
 router.get(
   '/google/callback',
   passport.authenticate('google', {
