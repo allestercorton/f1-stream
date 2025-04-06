@@ -1,41 +1,17 @@
+import { useEffect } from 'react';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Analytics } from '@vercel/analytics/react';
 import Home from './pages/Home';
-import Signin from './pages/Signin';
-import Signup from './pages/Signup';
-import ForgotPassword from './pages/ForgotPassword';
-import ResetPassword from './pages/ResetPassword';
 import NotFoundPage from './pages/404';
-import PublicRoute from './components/PublicRoute';
 import Banner from './components/Banner';
+import { useAuthStore } from './store/authStore';
 
 const router = createBrowserRouter([
   {
     path: '/',
     element: <Home />,
-  },
-  {
-    element: <PublicRoute />,
-    children: [
-      {
-        path: '/sign-in',
-        element: <Signin />,
-      },
-      {
-        path: '/sign-up',
-        element: <Signup />,
-      },
-      {
-        path: '/forgot-password',
-        element: <ForgotPassword />,
-      },
-      {
-        path: '/reset-password/:token',
-        element: <ResetPassword />,
-      },
-    ],
   },
   {
     path: '*',
@@ -53,6 +29,12 @@ const queryClient = new QueryClient({
 });
 
 export default function App() {
+  const { checkAuthStatus } = useAuthStore();
+
+  useEffect(() => {
+    checkAuthStatus();
+  }, [checkAuthStatus]);
+
   return (
     <QueryClientProvider client={queryClient}>
       <Banner />

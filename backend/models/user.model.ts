@@ -1,49 +1,25 @@
-import {
-  prop,
-  getModelForClass,
-  pre,
-  type DocumentType,
-} from '@typegoose/typegoose';
-import argon2 from 'argon2';
+import { prop, getModelForClass, modelOptions } from '@typegoose/typegoose';
 
-@pre<User>('save', async function (next) {
-  try {
-    // Only hash the password if it's modified or a new record
-    if (this.isModified('password') || this.isNew) {
-      this.password = await argon2.hash(this.password);
-    }
-    next();
-  } catch (error) {
-    next(error as Error);
-  }
-})
+@modelOptions({ schemaOptions: { timestamps: true } })
 export class User {
-  @prop({ type: String, required: true })
-  public name!: string;
+  @prop({ type: String, required: true, unique: true })
+  public googleId!: string;
 
-  @prop({
-    type: String,
-    required: true,
-    unique: true,
-    lowercase: true,
-    index: true,
-  })
+  @prop({ type: String, required: true, unique: true })
   public email!: string;
 
-  @prop({ type: String, required: true, minlength: 6 })
-  public password!: string;
+  @prop({ type: String, required: true })
+  public displayName!: string;
 
-  // Method to compare passwords
-  public async comparePassword(
-    this: DocumentType<User>,
-    candidatePassword: string
-  ): Promise<boolean> {
-    return argon2.verify(this.password, candidatePassword);
-  }
+  @prop({ type: String, required: true })
+  public firstName!: string;
+
+  @prop({ type: String })
+  public lastName?: string;
+
+  @prop({ type: String })
+  public profilePicture!: string;
 }
 
-const UserModel = getModelForClass(User, {
-  schemaOptions: { timestamps: true },
-});
-
+const UserModel = getModelForClass(User);
 export default UserModel;

@@ -3,14 +3,13 @@ import { Server } from 'socket.io';
 import { Types } from 'mongoose';
 import UserModel from './models/user.model.js';
 import { MessageModel } from './models/message.model.js';
-import { verifyToken } from './utils/token.js';
 import {
   ChatMessage,
   SocketData,
   TypingUser,
   ClientToServerEvents,
   ServerToClientEvents,
-} from './types/socket.js';
+} from './types/socket.types.js';
 import logger from './utils/logger.js';
 
 /**
