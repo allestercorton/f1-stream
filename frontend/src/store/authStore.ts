@@ -1,6 +1,7 @@
 import { create } from 'zustand';
 import { AuthState } from '@/types/auth';
 import api from '@/utils/api';
+import toast from 'react-hot-toast';
 
 const API_URL = `${import.meta.env.VITE_API_URL}` || 'http://localhost:5000';
 
@@ -37,6 +38,7 @@ export const useAuthStore = create<AuthState>((set) => ({
     try {
       await api.get(`${API_URL}/auth/logout`);
       set({ isAuthenticated: false, user: null });
+      toast.success('You logged out.');
     } catch (error) {
       console.error('Error logging out:', error);
     }
