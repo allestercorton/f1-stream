@@ -1,22 +1,44 @@
 import { Router } from 'express';
-import {
-  registerUser,
-  loginUser,
-  getCurrentUser,
-  forgotPassword,
-  resetPassword,
-} from '../controllers/auth.controller.js';
-import { protect } from '../middleware/auth.middleware.js';
+import passport from 'passport';
+import env from '../config/env.js';
+import logger from '../utils/logger.js';
 
 const router = Router();
 
-// Public routes
-router.post('/register', registerUser);
-router.post('/login', loginUser);
-router.post('/forgot-password', forgotPassword);
-router.post('/reset-password/:token', resetPassword);
+// Initiates Google OAuth2 login flow
+router.get('/google', (req, res, next) => {
+  logger.info('Google auth route hit');
+  passport.authenticate('google', {
+    scope: ['profile', 'email'],
+  })(req, res, next);
+});
 
-// Protected routes
-router.get('/me', protect, getCurrentUser);
+// Handles the callback from Google after user grants permission
+router.get(
+  '/google/callback',
+  passport.authenticate('google', {
+    failureRedirect: `${env.client.url}/login`,
+    session: true,
+  }),
+  (req, res) => {
+    logger.info('Google callback successful');
+    res.redirect(`${env.client.url}`);
+  }
+);
+
+// Check authentication status
+router.get('/status', (req, res) => {
+  res.json({ isAuthenticated: req.isAuthenticated() });
+});
+
+// Logout route
+router.get('/logout', (req, res) => {
+  req.logout((err) => {
+    if (err) {
+      return res.status(500).json({ message: 'Error logging out' });
+    }
+    res.status(200).json({ message: 'Logged out successfully' });
+  });
+});
 
 export default router;
