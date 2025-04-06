@@ -7,10 +7,12 @@ import morgan from 'morgan';
 import session from 'express-session';
 import passport from 'passport';
 import MongoStore from 'connect-mongo';
-import errorHandler from './middleware/error.middleware.js';
 import env from './config/env.js';
+import errorHandler from './middleware/error.middleware.js';
+import { sessionMiddleware } from './middleware/session.middleware.js';
 import authRoutes from './routes/auth.routes.js';
 import userRoutes from './routes/user.routes.js';
+import messageRoutes from './routes/message.routes';
 
 const app = express();
 
@@ -41,13 +43,15 @@ app.use(
   })
 );
 
-// Initialize Passport
+// Session and authentication
+app.use(sessionMiddleware);
 app.use(passport.initialize());
 app.use(passport.session());
 
 // Routes
 app.use('/auth', authRoutes);
 app.use('/api/user', userRoutes);
+app.use('/api/messages', messageRoutes);
 
 // healthy checks
 app.get('/health', (_req: Request, res: Response) => {
