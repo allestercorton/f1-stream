@@ -2,8 +2,7 @@ import { create } from 'zustand';
 import { AuthState } from '@/types/auth';
 import api from '@/utils/api';
 import toast from 'react-hot-toast';
-
-const API_URL = `${import.meta.env.VITE_API_URL}` || 'http://localhost:5000';
+import { API_URL } from '@/utils/api';
 
 export const useAuthStore = create<AuthState>((set) => ({
   isAuthenticated: false,

@@ -1,27 +1,5 @@
+import { NextSession, Race } from '@/types/race';
 import { f1_2025_races } from '../data/f1_2025_races';
-
-type RaceSession = {
-  name: string;
-  startTime: Date;
-  endTime: Date;
-};
-
-type Race = {
-  grandPrix: string;
-  circuit: string;
-  country: string;
-  hasSprint: boolean;
-  sessions: RaceSession[];
-};
-
-export type NextSession = {
-  grandPrix: string;
-  circuit: string;
-  country: string;
-  sessionName: string;
-  sessionStart: Date;
-  sessionEnd: Date;
-} | null;
 
 // helper function to get the next session
 export const getNextSession = (): NextSession => {

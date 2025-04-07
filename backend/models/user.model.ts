@@ -1,14 +1,8 @@
 import { prop, getModelForClass, modelOptions } from '@typegoose/typegoose';
 import type { Types } from 'mongoose';
 
-@modelOptions({
-  schemaOptions: {
-    timestamps: true,
-    toJSON: { virtuals: true },
-    toObject: { virtuals: true },
-  },
-})
-export class User {
+@modelOptions({ schemaOptions: { timestamps: true } })
+class User {
   _id!: Types.ObjectId;
 
   @prop({ type: String, required: true, unique: true })

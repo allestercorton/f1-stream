@@ -49,7 +49,7 @@ const Navbar = () => {
         <div className='flex h-10 items-center'>
           {!hasCheckedAuth ? (
             <div className='h-10 w-10'>
-              <Skeleton className='h-full w-full rounded-full bg-gray-700' />
+              <Skeleton className='h-full w-full rounded-full bg-zinc-600/50' />
             </div>
           ) : isAuthenticated && user ? (
             <DropdownMenu>

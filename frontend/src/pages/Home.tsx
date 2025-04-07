@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 import Navbar from '@/components/Navbar';
-import ChatContainer from '@/components/chat/ChatContainer';
 import RaceCountdown from '@/components/RaceCountdown';
 import LiveStream from '@/components/LiveStream';
+import ChatBox from '@/components/Chatbox';
 
 export default function Home() {
   const [isMobile, setIsMobile] = useState(false);
@@ -33,7 +33,7 @@ export default function Home() {
               isMobile ? 'h-full' : 'max-h-[calc(100vh-120px)]'
             }`}
           >
-            <ChatContainer />
+            <ChatBox />
           </div>
         </div>
       </div>

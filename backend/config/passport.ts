@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import passport from 'passport';
 import { Strategy as GoogleStrategy } from 'passport-google-oauth20';
 import UserModel from '../models/user.model.js';
@@ -28,7 +27,7 @@ passport.use(
       callbackURL: `${env.server.url}/auth/google/callback`,
       scope: ['profile', 'email'],
     },
-    async (accessToken, refreshToken, profile, done) => {
+    async (_accessToken, _refreshToken, profile, done) => {
       try {
         // Check if user already exists
         let user = await UserModel.findOne({ googleId: profile.id });

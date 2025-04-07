@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
-import { getNextSession, NextSession } from '@/utils/getNextSession';
+import { getNextSession } from '@/utils/getNextSession';
 import { Skeleton } from './ui/skeleton';
+import { NextSession } from '@/types/race';
 
 // formats ms difference into countdown string
 const formatCountdown = (diff: number) => {
@@ -42,23 +43,23 @@ const RaceCountdown = () => {
 
   if (!session)
     return (
-      <div className='inline-flex items-center rounded-full border border-zinc-800/50 bg-gradient-to-r from-zinc-950/80 to-zinc-900/80 px-3 py-1.5 text-sm backdrop-blur-md'>
-        <Skeleton className='h-4 w-28 bg-zinc-800/50' />
-        <span className='mx-2 text-zinc-500'>•</span>
+      <div className='inline-flex items-center px-3 py-1.5 text-sm'>
+        <Skeleton className='h-4 w-32 bg-zinc-800/50' />
+        <span className='mx-2 text-zinc-800/50'>•</span>
         <Skeleton className='h-4 w-16 bg-zinc-800/50' />
-        <span className='mx-2 text-zinc-500'>•</span>
+        <span className='mx-2 text-zinc-800/50'>•</span>
         <Skeleton className='h-4 w-24 bg-zinc-800/50' />
       </div>
     );
 
   return (
-    <div className='inline-flex items-center rounded-full border border-zinc-800/50 bg-gradient-to-r from-zinc-950/80 to-zinc-900/80 px-4 py-1.5 text-sm backdrop-blur-md'>
+    <div className='flex flex-col items-start gap-1 px-0 py-1.5 text-sm sm:flex-row sm:items-center sm:gap-0 sm:px-4'>
       <span className='font-medium tracking-tight'>{session.grandPrix}</span>
-      <span className='mx-2 text-zinc-500'>•</span>
+      <span className='hidden text-zinc-500 sm:mx-2 sm:block'>•</span>
       <div className='flex items-center gap-1.5 text-zinc-400'>
         {session.sessionName}
       </div>
-      <span className='mx-2 text-zinc-500'>•</span>
+      <span className='hidden text-zinc-500 sm:mx-2 sm:block'>•</span>
       <span className='font-mono text-xs tracking-tight text-zinc-300'>
         {countdown}
       </span>
