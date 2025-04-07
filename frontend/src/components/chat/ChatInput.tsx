@@ -1,7 +1,5 @@
-'use client';
-
 import type React from 'react';
-import { useState, useEffect, useRef, useCallback } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Send, X } from 'lucide-react';
 import type { Message } from '../../types/chat';
 
@@ -21,82 +19,61 @@ const ChatInput = ({
   onCancelReply,
 }: ChatInputProps) => {
   const [message, setMessage] = useState('');
-  const [lastTypingTime, setLastTypingTime] = useState(0);
-  const inputRef = useRef<HTMLInputElement>(null);
+  const [isTyping, setIsTyping] = useState(false);
   const typingTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
 
-  // Focus input when replying
+  // focus input when replying to a message
   useEffect(() => {
     if (replyingTo && inputRef.current) {
       inputRef.current.focus();
     }
   }, [replyingTo]);
 
-  // Debounced typing handler to improve performance
-  const debouncedTypingHandler = useCallback(() => {
-    const now = Date.now();
-    if (now - lastTypingTime > 2000) {
+  const handleTyping = () => {
+    if (!isTyping) {
+      setIsTyping(true);
       onTyping();
-      setLastTypingTime(now);
     }
 
-    // Clear existing timeout
+    // clear existing timeout
     if (typingTimeoutRef.current) {
       clearTimeout(typingTimeoutRef.current);
     }
 
-    // Set new timeout
+    // set new timeout
     typingTimeoutRef.current = setTimeout(() => {
+      setIsTyping(false);
       onStopTyping();
-    }, 3000);
-  }, [lastTypingTime, onTyping, onStopTyping]);
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setMessage(e.target.value);
-    debouncedTypingHandler();
+    }, 2000);
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+
     if (message.trim()) {
       onSendMessage(message);
       setMessage('');
 
-      // Clear typing indicator
+      // clear typing indicator
       if (typingTimeoutRef.current) {
         clearTimeout(typingTimeoutRef.current);
       }
+      setIsTyping(false);
       onStopTyping();
     }
   };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
+    // send on Enter (without shift)
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
       handleSubmit(e);
     }
   };
 
-  const handleBlur = () => {
-    // Don't immediately stop typing on blur
-    // This prevents flickering when clicking elsewhere in the UI
-    setTimeout(() => {
-      onStopTyping();
-    }, 1000);
-  };
-
-  // Clean up timeout on unmount
-  useEffect(() => {
-    return () => {
-      if (typingTimeoutRef.current) {
-        clearTimeout(typingTimeoutRef.current);
-      }
-    };
-  }, []);
-
   return (
     <div className='w-full'>
-      {/* Reply to text label */}
       {replyingTo && (
         <div className='mb-3 flex items-center justify-between px-3'>
           <div className='space-y-1'>
@@ -110,21 +87,23 @@ const ChatInput = ({
           <button
             onClick={onCancelReply}
             className='text-gray-500 hover:text-gray-700'
+            aria-label='Cancel reply'
           >
             <X className='h-7 w-7 rounded-full p-1 text-gray-200 hover:bg-white/15' />
           </button>
         </div>
       )}
 
-      {/* Chat input and send button */}
       <form onSubmit={handleSubmit} className='flex items-center gap-2'>
         <input
           ref={inputRef}
           type='text'
           value={message}
-          onChange={handleChange}
+          onChange={(e) => {
+            setMessage(e.target.value);
+            handleTyping();
+          }}
           onKeyDown={handleKeyDown}
-          onBlur={handleBlur}
           placeholder='Radio check...'
           className='flex-1 rounded-full bg-gray-800 px-4 py-2 text-white/90 focus:border-transparent focus:outline-none'
         />

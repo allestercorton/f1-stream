@@ -195,10 +195,7 @@ const ChatContainer: React.FC = () => {
       className='flex h-full flex-col overflow-hidden rounded-xl border border-white/10 bg-black/20 shadow-lg backdrop-blur-sm'
     >
       <div className='flex items-center justify-between border-b border-white/10 bg-black/30 p-3 backdrop-blur-sm'>
-        <div className='flex items-center gap-2'>
-          <MessageSquare size={18} className='text-zinc-300' />
-          <h2 className='text-base font-medium text-white'>Live Chat</h2>
-        </div>
+        <h2 className='text-base font-medium text-white'>Live Chat</h2>
         <Button
           variant='ghost'
           size='icon'
@@ -225,8 +222,7 @@ const ChatContainer: React.FC = () => {
         {isLoading ? (
           <div className='flex h-full items-center justify-center'>
             <div className='flex flex-col items-center gap-2'>
-              <div className='h-5 w-5 animate-spin rounded-full border-2 border-zinc-500 border-t-blue-500'></div>
-              <p className='text-sm text-zinc-400'>Loading messages...</p>
+              <div className='h-8 w-8 animate-spin rounded-full border-2 border-zinc-500 border-t-blue-500'></div>
             </div>
           </div>
         ) : messages.length === 0 ? (
@@ -277,15 +273,16 @@ const ChatContainer: React.FC = () => {
               onCancelReply={cancelReply}
             />
           ) : (
-            <div className='flex items-center justify-center rounded-lg bg-zinc-800/50 p-4 backdrop-blur-sm'>
+            <div className='text-center'>
               <button
+                className='text-blue-500 hover:underline'
                 onClick={() =>
                   (window.location.href = `${import.meta.env.VITE_API_URL}/auth/google`)
                 }
-                className='flex items-center gap-2 rounded-full bg-blue-600 px-4 py-2 font-medium text-white transition-colors hover:bg-blue-500'
               >
-                Sign in with Google
-              </button>
+                Sign In
+              </button>{' '}
+              to chat
             </div>
           )}
         </div>

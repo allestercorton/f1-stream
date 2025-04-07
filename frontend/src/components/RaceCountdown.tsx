@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { getNextSession, NextSession } from '@/utils/getNextSession';
+import { Skeleton } from './ui/skeleton';
 
 // formats ms difference into countdown string
 const formatCountdown = (diff: number) => {
@@ -39,10 +40,19 @@ const RaceCountdown = () => {
     return () => clearInterval(interval);
   }, []);
 
-  if (!session) return null;
+  if (!session)
+    return (
+      <div className='inline-flex items-center rounded-full border border-zinc-800/50 bg-gradient-to-r from-zinc-950/80 to-zinc-900/80 px-3 py-1.5 text-sm backdrop-blur-md'>
+        <Skeleton className='h-4 w-28 bg-zinc-800/50' />
+        <span className='mx-2 text-zinc-500'>•</span>
+        <Skeleton className='h-4 w-16 bg-zinc-800/50' />
+        <span className='mx-2 text-zinc-500'>•</span>
+        <Skeleton className='h-4 w-24 bg-zinc-800/50' />
+      </div>
+    );
 
   return (
-    <div className='inline-flex items-center rounded-full border border-zinc-800/50 bg-gradient-to-r from-zinc-950/80 to-zinc-900/80 px-4 py-1.5 text-sm backdrop-blur-md transition-all duration-300'>
+    <div className='inline-flex items-center rounded-full border border-zinc-800/50 bg-gradient-to-r from-zinc-950/80 to-zinc-900/80 px-4 py-1.5 text-sm backdrop-blur-md'>
       <span className='font-medium tracking-tight'>{session.grandPrix}</span>
       <span className='mx-2 text-zinc-500'>•</span>
       <div className='flex items-center gap-1.5 text-zinc-400'>
