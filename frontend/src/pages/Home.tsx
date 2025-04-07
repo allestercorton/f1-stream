@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import Navbar from '@/components/Navbar';
 import ChatContainer from '@/components/chat/ChatContainer';
-// import RaceCountdown from '@/components/RaceCountdown';
+import RaceCountdown from '@/components/RaceCountdown';
 import LiveStream from '@/components/LiveStream';
 
 export default function Home() {
@@ -23,7 +23,7 @@ export default function Home() {
     <main className='min-h-screen bg-black text-white'>
       <Navbar />
       <div className='container mx-auto mt-3 space-y-3 px-4'>
-        {/* <RaceCountdown /> */}
+        <RaceCountdown />
         <div className='grid h-[calc(100vh-120px)] grid-cols-1 gap-6 lg:grid-cols-3'>
           <div className='relative h-full overflow-hidden rounded-2xl border border-white/10 bg-gray-950 lg:col-span-2'>
             <LiveStream />

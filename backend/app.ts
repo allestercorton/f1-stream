@@ -12,7 +12,7 @@ import errorHandler from './middleware/error.middleware.js';
 import { sessionMiddleware } from './middleware/session.middleware.js';
 import authRoutes from './routes/auth.routes.js';
 import userRoutes from './routes/user.routes.js';
-import messageRoutes from './routes/message.routes';
+import messageRoutes from './routes/message.routes.js';
 
 const app = express();
 
