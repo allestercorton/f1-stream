@@ -1,5 +1,4 @@
 import { io } from 'socket.io-client';
+import { API_URL } from '@/constants/api';
 
-export const socket = io(
-  import.meta.env.VITE_API_URL || 'http://localhost:3000',
-);
+export const socket = io(API_URL);

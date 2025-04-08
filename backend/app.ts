@@ -4,9 +4,7 @@ import express, { Request, Response } from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
 import morgan from 'morgan';
-import session from 'express-session';
 import passport from 'passport';
-import MongoStore from 'connect-mongo';
 import env from './config/env.js';
 import errorHandler from './middleware/error.middleware.js';
 import { sessionMiddleware } from './middleware/session.middleware.js';
@@ -28,21 +26,6 @@ app.use(
 );
 app.use(helmet());
 app.use(morgan('dev'));
-
-// configure session management
-app.use(
-  session({
-    secret: env.session.secret,
-    resave: false,
-    saveUninitialized: false,
-    store: MongoStore.create({ mongoUrl: env.mongo.uri }),
-    cookie: {
-      maxAge: env.session.cookie.maxAge,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
-    },
-  })
-);
 
 // add custom session middleware and passport
 app.use(sessionMiddleware);
