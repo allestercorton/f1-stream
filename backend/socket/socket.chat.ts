@@ -1,7 +1,7 @@
 import { Server } from 'socket.io';
 import MessageModel from '../models/message.model.js';
-import env from '@backend/config/env.js';
-import logger from '@backend/utils/logger.js';
+import env from '../config/env.js';
+import logger from '../utils/logger.js';
 
 export const chatHandler = () => {
   // create new socket.io server instance
