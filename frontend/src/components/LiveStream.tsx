@@ -1,5 +1,5 @@
 const LiveStream = () => {
-  const streamSource = import.meta.env.VITE_STREAM_SOURCE;
+  const streamSource = 'https://wikisport.best/embed/skyf1.php';
 
   return (
     <div className='relative flex aspect-video h-full w-full items-center justify-center overflow-hidden'>

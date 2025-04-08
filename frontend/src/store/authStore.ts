@@ -1,8 +1,8 @@
 import { create } from 'zustand';
+import toast from 'react-hot-toast';
 import { AuthState } from '@/types/auth';
 import api from '@/utils/api';
-import toast from 'react-hot-toast';
-import { API_URL } from '@/utils/api';
+import { AUTH_ENDPOINTS } from '@/constants/api';
 
 export const useAuthStore = create<AuthState>((set) => ({
   isAuthenticated: false,
@@ -10,36 +10,46 @@ export const useAuthStore = create<AuthState>((set) => ({
   isPending: false,
   hasCheckedAuth: false,
 
+  // check the user's authentication status
   checkAuthStatus: async () => {
     try {
-      const response = await api.get(`${API_URL}/auth/status`);
+      set({ isPending: true });
+      const response = await api.get(AUTH_ENDPOINTS.STATUS);
       set({ isAuthenticated: response.data.isAuthenticated });
 
-      // If authenticated, fetch user profile
+      // if authenticated, fetch user profile
       if (response.data.isAuthenticated) {
-        const profileResponse = await api.get(`${API_URL}/api/user/profile`);
+        const profileResponse = await api.get(AUTH_ENDPOINTS.PROFILE);
         set({ user: profileResponse.data });
       }
     } catch (error) {
       console.error(error);
-      set({ isAuthenticated: false });
+      set({ isAuthenticated: false, user: null });
     } finally {
-      set({ hasCheckedAuth: true });
+      set({ isPending: false, hasCheckedAuth: true });
     }
   },
 
+  // initiate login process
   login: () => {
-    set({ isPending: true, isAuthenticated: true });
-    window.location.href = `${API_URL}/auth/google`;
+    // prevent duplicate clicks
+    if (useAuthStore.getState().isPending) return;
+
+    set({ isPending: true });
+    window.location.href = AUTH_ENDPOINTS.LOGIN;
   },
 
+  // handle logout
   logout: async () => {
     try {
-      await api.get(`${API_URL}/auth/logout`);
-      set({ isAuthenticated: false, user: null });
-      toast.success('You logged out.');
+      set({ isPending: true });
+      await api.get(AUTH_ENDPOINTS.LOGOUT);
+      set({ isPending: false, isAuthenticated: false, user: null });
+      toast.success('Logged out successfully.');
     } catch (error) {
-      console.error('Error logging out:', error);
+      set({ isPending: false });
+      console.error('Logout failed:', error);
+      toast.error('Logout failed. Please try again.');
     }
   },
 }));

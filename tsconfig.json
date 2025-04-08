@@ -16,6 +16,6 @@
     "forceConsistentCasingInFileNames": true,
     "types": ["node"]
   },
-  "include": ["backend/**/*.ts", "backend/types/express.d.ts"],
+  "include": ["backend/**/*.ts"],
   "exclude": ["node_modules", "dist"]
 }
