@@ -1,9 +1,7 @@
-import type { Request } from 'express';
 import session from 'express-session';
 import MongoStore from 'connect-mongo';
 import env from '../config/env.js';
 
-// Create the session middleware
 export const sessionMiddleware = session({
   secret: env.session.secret,
   resave: false,
@@ -18,12 +16,3 @@ export const sessionMiddleware = session({
     sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
   },
 });
-
-// Helper to get session from socket.io request
-export const getSession = (request: any): Promise<any> => {
-  return new Promise((resolve) => {
-    sessionMiddleware(request as Request, {} as any, () => {
-      resolve(request.session);
-    });
-  });
-};
