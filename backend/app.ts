@@ -1,5 +1,5 @@
 import 'dotenv/config';
-import './config/passport';
+import './config/passport.js';
 import express, { Request, Response } from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
