@@ -13,7 +13,8 @@
       "@backend/*": ["./backend/*"]
     },
     "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true
+    "forceConsistentCasingInFileNames": true,
+    "types": ["node"]
   },
   "include": ["backend/**/*.ts"],
   "exclude": ["node_modules", "dist"]

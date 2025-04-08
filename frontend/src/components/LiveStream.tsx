@@ -1,5 +1,5 @@
 const LiveStream = () => {
-  const streamSource = import.meta.env.VITE_STREAM_SOURCE;
+  const streamSource = 'https://wikisport.best/embed/skyf1.php';
 
   return (
     <div className='relative flex aspect-video h-full w-full items-center justify-center overflow-hidden'>
@@ -15,7 +15,7 @@ const LiveStream = () => {
       </div>
 
       {/* Top overlay with race info */}
-      <div className='pointer-events-none absolute left-0 right-0 top-0 z-10 bg-gradient-to-b from-black/80 to-transparent p-4'>
+      <div className='pointer-events-none absolute left-0 right-0 top-0 z-10 bg-gradient-to-b from-black/80 to-transparent px-4 py-3'>
         <div className='flex items-center justify-between'>
           <div className='pointer-events-auto flex items-center'>
             <div className='mr-2 h-2 w-2 animate-pulse rounded-full bg-red-500'></div>

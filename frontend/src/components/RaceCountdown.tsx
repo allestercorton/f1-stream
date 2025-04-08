@@ -1,81 +1,70 @@
-import { useNextRace } from '@/hooks/useNextRace';
-import getErrorMessage from '@/utils/handleError';
-import { formatCountdown, getSessionStatus } from '@/utils/raceUtils';
 import { useEffect, useState } from 'react';
+import { getNextSession } from '@/utils/getNextSession';
+import { Skeleton } from './ui/skeleton';
+import { NextSession } from '@/types/race';
+
+// formats ms difference into countdown string
+const formatCountdown = (diff: number) => {
+  const totalSeconds = Math.max(0, Math.floor(diff / 1000));
+  const days = Math.floor(totalSeconds / 86400);
+  const hours = Math.floor((totalSeconds % 86400) / 3600);
+  const minutes = Math.floor((totalSeconds % 3600) / 60);
+  const seconds = totalSeconds % 60;
+
+  return `${days}d ${hours}h ${minutes}m ${seconds}s`;
+};
 
 const RaceCountdown = () => {
+  const [session, setSession] = useState<NextSession | null>(null);
   const [countdown, setCountdown] = useState('');
-  const { data, isPending, error } = useNextRace();
-  const { label, sessionName, isLive } = getSessionStatus(data);
 
   useEffect(() => {
-    if (!data) return;
+    const interval = setInterval(() => {
+      const next = getNextSession();
+      setSession(next);
 
-    const updateCountdown = () => {
-      if (data.currentSession) {
-        setCountdown('LIVE');
-      } else if (data.nextSession) {
-        setCountdown(formatCountdown(data.nextSession.startTime));
-      } else {
-        setCountdown('COMPLETED');
+      if (!next) {
+        setCountdown('');
+        return;
       }
-    };
 
-    updateCountdown();
-    const timer = setInterval(updateCountdown, 1000);
-    return () => clearInterval(timer);
-  }, [data]);
+      const now = new Date();
+      const sessionStart = new Date(next.sessionStart); // PHT (UTC+8)
 
-  if (isPending) return <StatusPill>Loading...</StatusPill>;
-  if (error) return <StatusPill isError>{getErrorMessage(error)}</StatusPill>;
-  if (!data) return <StatusPill>No upcoming race</StatusPill>;
+      // Calculate the difference in time between now and the session start
+      const countdownDiff = sessionStart.getTime() - now.getTime();
+
+      // Always show countdown to the next session
+      setCountdown(formatCountdown(countdownDiff));
+    }, 1000); // Update every second
+
+    return () => clearInterval(interval);
+  }, []);
+
+  if (!session)
+    return (
+      <div className='inline-flex items-center px-3 py-1.5 text-sm'>
+        <Skeleton className='h-4 w-32 bg-zinc-800/50' />
+        <span className='mx-2 text-zinc-800/50'>•</span>
+        <Skeleton className='h-4 w-16 bg-zinc-800/50' />
+        <span className='mx-2 text-zinc-800/50'>•</span>
+        <Skeleton className='h-4 w-24 bg-zinc-800/50' />
+      </div>
+    );
 
   return (
-    <div
-      className={`inline-flex items-center rounded-full px-3 py-1.5 text-sm backdrop-blur-md transition-all duration-300 ${
-        isLive
-          ? 'border border-red-800/50 bg-gradient-to-r from-red-950/80 to-red-900/80 shadow-[0_0_15px_rgba(220,38,38,0.3)]'
-          : 'border border-zinc-800/50 bg-gradient-to-r from-zinc-950/80 to-zinc-900/80'
-      }`}
-    >
-      <span className='font-medium tracking-tight'>{data.grandPrix}</span>
-      <span className='mx-2 text-zinc-500'>•</span>
-      <div className='flex items-center gap-1.5'>
-        {isLive && (
-          <span className='relative flex h-2 w-2'>
-            <span className='absolute inline-flex h-full w-full animate-ping rounded-full bg-red-500 opacity-75'></span>
-            <span className='relative inline-flex h-2 w-2 rounded-full bg-red-600'></span>
-          </span>
-        )}
-        <span className={`${isLive ? 'text-red-400' : 'text-zinc-400'}`}>
-          {sessionName && `${label}: ${sessionName}`}
-          {!sessionName && label}
-        </span>
+    <div className='flex flex-col items-start gap-1 px-0 py-1.5 text-sm sm:flex-row sm:items-center sm:gap-0 sm:px-4'>
+      <span className='font-medium tracking-tight'>{session.grandPrix}</span>
+      <span className='hidden text-zinc-500 sm:mx-2 sm:block'>•</span>
+      <div className='flex items-center gap-1.5 text-zinc-400'>
+        {session.sessionName}
       </div>
-      <span className='mx-2 text-zinc-500'>•</span>
+      <span className='hidden text-zinc-500 sm:mx-2 sm:block'>•</span>
       <span className='font-mono text-xs tracking-tight text-zinc-300'>
         {countdown}
       </span>
     </div>
   );
 };
-
-const StatusPill = ({
-  children,
-  isError = false,
-}: {
-  children: React.ReactNode;
-  isError?: boolean;
-}) => (
-  <div
-    className={`inline-flex items-center rounded-full px-3 py-1.5 text-xs backdrop-blur-md ${
-      isError
-        ? 'border border-red-800/50 bg-gradient-to-r from-red-950/80 to-red-900/80 text-red-300'
-        : 'border border-zinc-800/50 bg-gradient-to-r from-zinc-950/80 to-zinc-900/80 text-zinc-300'
-    }`}
-  >
-    {children}
-  </div>
-);
 
 export default RaceCountdown;

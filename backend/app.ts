@@ -1,39 +1,64 @@
 import 'dotenv/config';
+import './config/passport';
 import express, { Request, Response } from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
 import morgan from 'morgan';
+import session from 'express-session';
+import passport from 'passport';
+import MongoStore from 'connect-mongo';
+import env from './config/env.js';
 import errorHandler from './middleware/error.middleware.js';
+import { sessionMiddleware } from './middleware/session.middleware.js';
 import authRoutes from './routes/auth.routes.js';
-import raceRoutes from './routes/race.routes.js';
+import userRoutes from './routes/user.routes.js';
 
+// initialize express application
 const app = express();
 
-// Middleware
+// set up middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(
   cors({
-    origin: process.env.CLIENT_URL || 'http://localhost:5173',
+    origin: env.client.url || 'http://localhost:5173',
+    methods: ['GET', 'POST'],
     credentials: true,
   })
 );
 app.use(helmet());
 app.use(morgan('dev'));
 
-// Routes
-app.use('/api/auth', authRoutes);
-app.use('/api/races', raceRoutes);
+// configure session management
+app.use(
+  session({
+    secret: env.session.secret,
+    resave: false,
+    saveUninitialized: false,
+    store: MongoStore.create({ mongoUrl: env.mongo.uri }),
+    cookie: {
+      maxAge: env.session.cookie.maxAge,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
+    },
+  })
+);
 
-// healthy checks
+// add custom session middleware and passport
+app.use(sessionMiddleware);
+app.use(passport.initialize());
+app.use(passport.session());
+
+// set up routes
+app.use('/auth', authRoutes);
+app.use('/api/user', userRoutes);
+
+// health check endpoint
 app.get('/health', (_req: Request, res: Response) => {
   res.status(200).json({ status: 'healthy' });
 });
 
-// Error handler middleware
+// error handling middleware
 app.use(errorHandler);
-
-// Trust the first proxy
-app.set('trust proxy', 1);
 
 export default app;

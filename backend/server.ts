@@ -1,21 +1,37 @@
-import http from 'http';
-import app from './app.js';
+import { createServer } from 'http';
+import env from './config/env.js';
 import connectDB from './config/db.js';
-import { initializeSocket } from './socket.js';
 import logger from './utils/logger.js';
+import app from './app.js';
+import { chatHandler } from './socket/socket.chat.js';
 
-// Connect to MongoDB
-connectDB();
+// connect to the database with error handling
+connectDB().catch((err) => {
+  logger.error('database connection failed:', err);
+  process.exit(1);
+});
 
-// Create HTTP server
-const server = http.createServer(app);
+// create http server instance
+const httpServer = createServer(app);
 
-// Initialize Socket.IO
-initializeSocket(server);
+// initialize socket.io
+const io = chatHandler();
+io.attach(httpServer);
 
-// Start server
-const PORT = process.env.PORT || 5000;
-const NODE_ENV = process.env.NODE_ENV || 'development';
-server.listen(PORT, () =>
-  logger.info(`🚀 Server is running in ${NODE_ENV} mode on port ${PORT}`)
-);
+// start the server
+httpServer.listen(env.server.port, () => {
+  logger.info(
+    `🚀 server running in ${env.server.mode} mode on port ${env.server.port}`
+  );
+});
+
+// handle promise rejections
+process.on('unhandledRejection', (err) => {
+  logger.error('unhandled rejection:', err);
+});
+
+// handle uncaught exceptions
+process.on('uncaughtException', (err) => {
+  logger.error('uncaught exception:', err);
+  process.exit(1);
+});

@@ -97,3 +97,13 @@
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   transition-duration: 150ms;
 }
+
+/* ensure tooltips appear above everything */
+.shadcn-tooltip {
+  z-index: 9999;
+}
+
+/* Add smooth transition for chat container */
+.chat-transition {
+  transition: all 0.3s ease-in-out;
+}

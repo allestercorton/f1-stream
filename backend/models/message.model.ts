@@ -1,27 +1,19 @@
-import {
-  DocumentType,
-  getModelForClass,
-  modelOptions,
-  prop,
-} from '@typegoose/typegoose';
-import { Types } from 'mongoose';
+import { getModelForClass, modelOptions, prop } from '@typegoose/typegoose';
 
-@modelOptions({
-  schemaOptions: {
-    timestamps: true,
-    collection: 'messages',
-  },
-})
-export class Message {
-  @prop({ type: Types.ObjectId, ref: 'User', required: true })
-  public user!: Types.ObjectId;
+@modelOptions({ schemaOptions: { timestamps: true } })
+class Message {
+  @prop({ type: String, required: true })
+  public userId!: string;
 
-  @prop({ type: String, required: true, trim: true, maxlength: 500 })
+  @prop({ type: String, required: true })
+  public name!: string;
+
+  @prop({ type: String, required: true })
+  public avatar!: string;
+
+  @prop({ type: String, required: true })
   public content!: string;
-
-  public createdAt!: Date;
-  public updatedAt!: Date;
 }
 
-export type MessageDocument = DocumentType<Message>;
-export const MessageModel = getModelForClass(Message);
+const MessageModel = getModelForClass(Message);
+export default MessageModel;

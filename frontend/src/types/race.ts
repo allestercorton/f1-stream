@@ -1,13 +1,22 @@
-export interface Session {
+export type RaceSession = {
   name: string;
-  startTime: string;
-  endTime: string;
-}
+  startTime: Date;
+  endTime: Date;
+};
 
-export interface RaceData {
+export type Race = {
   grandPrix: string;
+  circuit: string;
   country: string;
   hasSprint: boolean;
-  currentSession?: Session;
-  nextSession?: Session;
-}
+  sessions: RaceSession[];
+};
+
+export type NextSession = {
+  grandPrix: string;
+  circuit: string;
+  country: string;
+  sessionName: string;
+  sessionStart: Date;
+  sessionEnd: Date;
+} | null;
