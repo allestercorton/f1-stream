@@ -1,16 +1,22 @@
 import { Router } from 'express';
 import {
-  googleAuth,
-  googleAuthCallback,
-  authStatus,
-  logout,
+  registerUser,
+  loginUser,
+  getCurrentUser,
+  forgotPassword,
+  resetPassword,
 } from '../controllers/auth.controller.js';
+import { protect } from '../middleware/auth.middleware.js';
 
 const router = Router();
 
-router.get('/google', googleAuth);
-router.get('/google/callback', googleAuthCallback);
-router.get('/status', authStatus);
-router.get('/logout', logout);
+// Public routes
+router.post('/register', registerUser);
+router.post('/login', loginUser);
+router.post('/forgot-password', forgotPassword);
+router.post('/reset-password/:token', resetPassword);
+
+// Protected routes
+router.get('/me', protect, getCurrentUser);
 
 export default router;

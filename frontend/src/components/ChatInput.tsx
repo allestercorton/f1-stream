@@ -23,7 +23,7 @@ const ChatInput = ({ text, setText, sendMessage }: ChatInputProps) => (
       <button
         onClick={sendMessage}
         disabled={!text.trim()}
-        className='ml-1 rounded-full p-1.5 text-zinc-400 transition-colors hover:bg-zinc-700 hover:text-white disabled:opacity-50'
+        className='text-zinc-white ml-1 rounded-full p-1.5 transition-colors hover:bg-zinc-700 hover:text-white disabled:opacity-50'
         aria-label='Send message'
       >
         <Send size={16} />

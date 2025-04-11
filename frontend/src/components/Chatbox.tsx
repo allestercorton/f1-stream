@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect, useLayoutEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { ChevronUp, ChevronDown } from 'lucide-react';
 import Message from './Message';
 import ChatInput from './ChatInput';
@@ -12,12 +13,9 @@ const ChatBox = () => {
   const [isChatVisible, setIsChatVisible] = useState(true);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
-  // Auth state
+  // auth states
   const isAuthenticated = useAuthStore((s) => s.isAuthenticated);
   const user = useAuthStore((s) => s.user);
-  const login = useAuthStore((s) => s.login);
-  const hasCheckedAuth = useAuthStore((s) => s.hasCheckedAuth);
-  const isAuthPending = useAuthStore((s) => s.isPending);
 
   // scroll to latest message after render
   const scrollToBottom = () => {
@@ -27,15 +25,10 @@ const ChatBox = () => {
   };
 
   useLayoutEffect(() => {
-    if (
-      isChatVisible &&
-      hasCheckedAuth &&
-      !isAuthPending &&
-      messages.length > 0
-    ) {
+    if (isChatVisible && isAuthenticated && messages.length > 0) {
       scrollToBottom();
     }
-  }, [messages, isChatVisible, hasCheckedAuth, isAuthPending]);
+  }, [messages, isChatVisible, isAuthenticated]);
 
   // setup socket listeners
   useEffect(() => {
@@ -61,9 +54,8 @@ const ChatBox = () => {
     if (!text.trim() || !user) return;
 
     const newMessage: ChatMessage = {
-      userId: user._id,
-      name: user.displayName,
-      avatar: user.profilePicture,
+      userId: user.id,
+      name: user.name,
       content: text.trim(),
       createdAt: new Date(),
     };
@@ -98,27 +90,18 @@ const ChatBox = () => {
       {isChatVisible && (
         <>
           <div className='scrollbar-thin scrollbar-thumb-zinc-700 scrollbar-track-transparent flex-1 overflow-y-auto p-4'>
-            {isAuthPending || !hasCheckedAuth ? (
-              // auth loading spinner
-              <div className='flex h-full w-full items-center justify-center'>
-                <div className='h-6 w-6 animate-spin rounded-full border-2 border-white/20 border-t-white'></div>
-              </div>
-            ) : (
-              <>
-                {messages.map((msg, i) => (
-                  <Message
-                    key={`${msg.userId}-${i}`}
-                    msg={msg}
-                    isCurrentUser={user?._id === msg.userId}
-                  />
-                ))}
-                <div ref={messagesEndRef} />
-              </>
-            )}
+            {messages.map((msg, i) => (
+              <Message
+                key={`${msg.userId}-${i}`}
+                msg={msg}
+                isCurrentUser={user?.id === msg.userId}
+              />
+            ))}
+            <div ref={messagesEndRef} />
           </div>
 
           {/* Chat input or login prompt */}
-          {isAuthPending || !hasCheckedAuth ? null : isAuthenticated && user ? (
+          {isAuthenticated ? (
             <ChatInput
               text={text}
               setText={setText}
@@ -126,14 +109,14 @@ const ChatBox = () => {
             />
           ) : (
             <div className='border-t border-white/10 bg-black/30 p-4 text-center'>
-              <span
-                onClick={login}
+              <Link
+                to='/sign-in'
                 className='cursor-pointer text-white hover:underline'
-                aria-label='Sign in'
+                aria-label='Link to sign in'
               >
                 Sign in
-              </span>{' '}
-              <span className='text-white/50'>to join the conversation</span>
+              </Link>{' '}
+              <span className='text-white/50'>to join the conversation.</span>
             </div>
           )}
         </>

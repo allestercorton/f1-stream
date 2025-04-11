@@ -1,21 +1,13 @@
-import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import toast from 'react-hot-toast';
-import { Skeleton } from './ui/skeleton';
 import { useAuthStore } from '@/store/authStore';
-import SigninButton from './SigninButton';
 import UserDropdown from './UserDropdown';
+import { Button } from './ui/button';
 
 const Navbar = () => {
-  // auth state from zustand store
-  const checkAuthStatus = useAuthStore((state) => state.checkAuthStatus);
-  const { isAuthenticated, user, login, logout, isPending, hasCheckedAuth } =
-    useAuthStore();
-
-  // check auth status on mount
-  useEffect(() => {
-    checkAuthStatus().catch(() => toast.error('Failed to check auth status.'));
-  }, [checkAuthStatus]);
+  // auth states
+  const isAuthenticated = useAuthStore((s) => s.isAuthenticated);
+  const user = useAuthStore((s) => s.user);
+  const logout = useAuthStore((s) => s.logout);
 
   return (
     <header className='flex h-[60px] items-center border-b border-white/10 bg-black px-5 py-2'>
@@ -30,16 +22,19 @@ const Navbar = () => {
           </div>
         </Link>
 
-        {/* if user is not authenticated render skeleton, if user is authenticated render profile otherwise sign in button */}
         <div className='flex h-10 items-center'>
-          {!hasCheckedAuth ? (
-            <div className='h-10 w-10'>
-              <Skeleton className='h-full w-full rounded-full bg-zinc-600/50' />
-            </div>
-          ) : isAuthenticated && user ? (
+          {isAuthenticated && user ? (
             <UserDropdown user={user} logout={logout} />
           ) : (
-            <SigninButton isPending={isPending} login={login} />
+            <Link to='/sign-in'>
+              <Button
+                variant='ghost'
+                className='h-10 rounded-full px-4 text-white/90 hover:bg-white/15'
+                aria-label='Sign in link'
+              >
+                Sign in
+              </Button>
+            </Link>
           )}
         </div>
       </div>

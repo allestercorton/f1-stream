@@ -1,15 +1,11 @@
 import 'dotenv/config';
-import './config/passport.js';
 import express, { Request, Response } from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
 import morgan from 'morgan';
-import passport from 'passport';
 import env from './config/env.js';
 import errorHandler from './middleware/error.middleware.js';
-import { sessionMiddleware } from './middleware/session.middleware.js';
 import authRoutes from './routes/auth.routes.js';
-import userRoutes from './routes/user.routes.js';
 
 // initialize express application
 const app = express();
@@ -27,14 +23,8 @@ app.use(
 app.use(helmet());
 app.use(morgan('dev'));
 
-// add custom session middleware and passport
-app.use(sessionMiddleware);
-app.use(passport.initialize());
-app.use(passport.session());
-
 // set up routes
 app.use('/auth', authRoutes);
-app.use('/api/user', userRoutes);
 
 // health check endpoint
 app.get('/health', (_req: Request, res: Response) => {

@@ -9,9 +9,6 @@ class Message {
   public name!: string;
 
   @prop({ type: String, required: true })
-  public avatar!: string;
-
-  @prop({ type: String, required: true })
   public content!: string;
 }
 

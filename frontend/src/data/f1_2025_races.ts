@@ -8,17 +8,17 @@ export const f1_2025_races = [
     hasSprint: false,
     sessions: [
       {
-        name: 'Practice 1',
+        name: 'Free Practice 1',
         startTime: new Date('2025-03-14T01:30:00+08:00'),
         endTime: new Date('2025-03-14T02:30:00+08:00'),
       },
       {
-        name: 'Practice 2',
+        name: 'Free Practice 2',
         startTime: new Date('2025-03-14T05:00:00+08:00'),
         endTime: new Date('2025-03-14T06:00:00+08:00'),
       },
       {
-        name: 'Practice 3',
+        name: 'Free Practice 3',
         startTime: new Date('2025-03-15T01:30:00+08:00'),
         endTime: new Date('2025-03-15T02:30:00+08:00'),
       },
@@ -42,7 +42,7 @@ export const f1_2025_races = [
     hasSprint: true,
     sessions: [
       {
-        name: 'Practice 1',
+        name: 'Free Practice 1',
         startTime: new Date('2025-03-21T03:30:00+08:00'),
         endTime: new Date('2025-03-21T04:30:00+08:00'),
       },
@@ -76,17 +76,17 @@ export const f1_2025_races = [
     hasSprint: false,
     sessions: [
       {
-        name: 'Practice 1',
+        name: 'Free Practice 1',
         startTime: new Date('2025-04-04T10:30:00+08:00'),
         endTime: new Date('2025-04-04T11:30:00+08:00'),
       },
       {
-        name: 'Practice 2',
+        name: 'Free Practice 2',
         startTime: new Date('2025-04-04T14:00:00+08:00'),
         endTime: new Date('2025-04-04T15:00:00+08:00'),
       },
       {
-        name: 'Practice 3',
+        name: 'Free Practice 3',
         startTime: new Date('2025-04-05T10:30:00+08:00'),
         endTime: new Date('2025-04-05T11:30:00+08:00'),
       },
@@ -110,17 +110,17 @@ export const f1_2025_races = [
     hasSprint: false,
     sessions: [
       {
-        name: 'Practice 1',
+        name: 'Free Practice 1',
         startTime: new Date('2025-04-11T19:30:00+08:00'),
         endTime: new Date('2025-04-11T20:30:00+08:00'),
       },
       {
-        name: 'Practice 2',
+        name: 'Free Practice 2',
         startTime: new Date('2025-04-11T23:00:00+08:00'),
         endTime: new Date('2025-04-12T00:00:00+08:00'),
       },
       {
-        name: 'Practice 3',
+        name: 'Free Practice 3',
         startTime: new Date('2025-04-12T20:30:00+08:00'),
         endTime: new Date('2025-04-12T21:30:00+08:00'),
       },
@@ -144,17 +144,17 @@ export const f1_2025_races = [
     hasSprint: false,
     sessions: [
       {
-        name: 'Practice 1',
+        name: 'Free Practice 1',
         startTime: new Date('2025-04-18T21:30:00+08:00'),
         endTime: new Date('2025-04-18T22:30:00+08:00'),
       },
       {
-        name: 'Practice 2',
+        name: 'Free Practice 2',
         startTime: new Date('2025-04-19T01:00:00+08:00'),
         endTime: new Date('2025-04-19T02:00:00+08:00'),
       },
       {
-        name: 'Practice 3',
+        name: 'Free Practice 3',
         startTime: new Date('2025-04-19T21:30:00+08:00'),
         endTime: new Date('2025-04-19T22:30:00+08:00'),
       },
@@ -178,7 +178,7 @@ export const f1_2025_races = [
     hasSprint: true,
     sessions: [
       {
-        name: 'Practice 1',
+        name: 'Free Practice 1',
         startTime: new Date('2025-05-03T00:30:00+08:00'),
         endTime: new Date('2025-05-03T01:30:00+08:00'),
       },
@@ -212,17 +212,17 @@ export const f1_2025_races = [
     hasSprint: false,
     sessions: [
       {
-        name: 'Practice 1',
+        name: 'Free Practice 1',
         startTime: new Date('2025-05-16T19:30:00+08:00'),
         endTime: new Date('2025-05-16T20:30:00+08:00'),
       },
       {
-        name: 'Practice 2',
+        name: 'Free Practice 2',
         startTime: new Date('2025-05-16T23:00:00+08:00'),
         endTime: new Date('2025-05-17T00:00:00+08:00'),
       },
       {
-        name: 'Practice 3',
+        name: 'Free Practice 3',
         startTime: new Date('2025-05-17T18:30:00+08:00'),
         endTime: new Date('2025-05-17T19:30:00+08:00'),
       },
@@ -246,17 +246,17 @@ export const f1_2025_races = [
     hasSprint: false,
     sessions: [
       {
-        name: 'Practice 1',
+        name: 'Free Practice 1',
         startTime: new Date('2025-05-23T19:30:00+08:00'),
         endTime: new Date('2025-05-23T20:30:00+08:00'),
       },
       {
-        name: 'Practice 2',
+        name: 'Free Practice 2',
         startTime: new Date('2025-05-23T23:00:00+08:00'),
         endTime: new Date('2025-05-24T00:00:00+08:00'),
       },
       {
-        name: 'Practice 3',
+        name: 'Free Practice 3',
         startTime: new Date('2025-05-24T18:30:00+08:00'),
         endTime: new Date('2025-05-24T19:30:00+08:00'),
       },
@@ -280,17 +280,17 @@ export const f1_2025_races = [
     hasSprint: false,
     sessions: [
       {
-        name: 'Practice 1',
+        name: 'Free Practice 1',
         startTime: new Date('2025-05-30T19:30:00+08:00'),
         endTime: new Date('2025-05-30T20:30:00+08:00'),
       },
       {
-        name: 'Practice 2',
+        name: 'Free Practice 2',
         startTime: new Date('2025-05-30T23:00:00+08:00'),
         endTime: new Date('2025-05-31T00:00:00+08:00'),
       },
       {
-        name: 'Practice 3',
+        name: 'Free Practice 3',
         startTime: new Date('2025-05-31T18:30:00+08:00'),
         endTime: new Date('2025-05-31T19:30:00+08:00'),
       },
@@ -314,17 +314,17 @@ export const f1_2025_races = [
     hasSprint: false,
     sessions: [
       {
-        name: 'Practice 1',
+        name: 'Free Practice 1',
         startTime: new Date('2025-06-14T01:30:00+08:00'),
         endTime: new Date('2025-06-14T02:30:00+08:00'),
       },
       {
-        name: 'Practice 2',
+        name: 'Free Practice 2',
         startTime: new Date('2025-06-14T05:00:00+08:00'),
         endTime: new Date('2025-06-14T06:00:00+08:00'),
       },
       {
-        name: 'Practice 3',
+        name: 'Free Practice 3',
         startTime: new Date('2025-06-15T00:30:00+08:00'),
         endTime: new Date('2025-06-15T01:30:00+08:00'),
       },
@@ -348,17 +348,17 @@ export const f1_2025_races = [
     hasSprint: false,
     sessions: [
       {
-        name: 'Practice 1',
+        name: 'Free Practice 1',
         startTime: new Date('2025-06-27T19:30:00+08:00'),
         endTime: new Date('2025-06-27T20:30:00+08:00'),
       },
       {
-        name: 'Practice 2',
+        name: 'Free Practice 2',
         startTime: new Date('2025-06-27T23:00:00+08:00'),
         endTime: new Date('2025-06-28T00:00:00+08:00'),
       },
       {
-        name: 'Practice 3',
+        name: 'Free Practice 3',
         startTime: new Date('2025-06-28T18:30:00+08:00'),
         endTime: new Date('2025-06-28T19:30:00+08:00'),
       },
@@ -416,7 +416,7 @@ export const f1_2025_races = [
     hasSprint: true,
     sessions: [
       {
-        name: 'Practice 1',
+        name: 'Free Practice 1',
         startTime: new Date('2025-07-25T18:30:00+08:00'),
         endTime: new Date('2025-07-25T19:30:00+08:00'),
       },
@@ -450,17 +450,17 @@ export const f1_2025_races = [
     hasSprint: false,
     sessions: [
       {
-        name: 'Practice 1',
+        name: 'Free Practice 1',
         startTime: new Date('2025-08-01T19:30:00+08:00'),
         endTime: new Date('2025-08-01T20:30:00+08:00'),
       },
       {
-        name: 'Practice 2',
+        name: 'Free Practice 2',
         startTime: new Date('2025-08-01T23:00:00+08:00'),
         endTime: new Date('2025-08-02T00:00:00+08:00'),
       },
       {
-        name: 'Practice 3',
+        name: 'Free Practice 3',
         startTime: new Date('2025-08-02T18:30:00+08:00'),
         endTime: new Date('2025-08-02T19:30:00+08:00'),
       },
@@ -484,17 +484,17 @@ export const f1_2025_races = [
     hasSprint: false,
     sessions: [
       {
-        name: 'Practice 1',
+        name: 'Free Practice 1',
         startTime: new Date('2025-08-29T18:30:00+08:00'),
         endTime: new Date('2025-08-29T19:30:00+08:00'),
       },
       {
-        name: 'Practice 2',
+        name: 'Free Practice 2',
         startTime: new Date('2025-08-29T22:00:00+08:00'),
         endTime: new Date('2025-08-29T23:00:00+08:00'),
       },
       {
-        name: 'Practice 3',
+        name: 'Free Practice 3',
         startTime: new Date('2025-08-30T17:30:00+08:00'),
         endTime: new Date('2025-08-30T18:30:00+08:00'),
       },
@@ -518,17 +518,17 @@ export const f1_2025_races = [
     hasSprint: false,
     sessions: [
       {
-        name: 'Practice 1',
+        name: 'Free Practice 1',
         startTime: new Date('2025-09-05T19:30:00+08:00'),
         endTime: new Date('2025-09-05T20:30:00+08:00'),
       },
       {
-        name: 'Practice 2',
+        name: 'Free Practice 2',
         startTime: new Date('2025-09-05T23:00:00+08:00'),
         endTime: new Date('2025-09-06T00:00:00+08:00'),
       },
       {
-        name: 'Practice 3',
+        name: 'Free Practice 3',
         startTime: new Date('2025-09-06T18:30:00+08:00'),
         endTime: new Date('2025-09-06T19:30:00+08:00'),
       },
@@ -552,17 +552,17 @@ export const f1_2025_races = [
     hasSprint: false,
     sessions: [
       {
-        name: 'Practice 1',
+        name: 'Free Practice 1',
         startTime: new Date('2025-09-19T16:30:00+08:00'),
         endTime: new Date('2025-09-19T17:30:00+08:00'),
       },
       {
-        name: 'Practice 2',
+        name: 'Free Practice 2',
         startTime: new Date('2025-09-19T20:00:00+08:00'),
         endTime: new Date('2025-09-19T21:00:00+08:00'),
       },
       {
-        name: 'Practice 3',
+        name: 'Free Practice 3',
         startTime: new Date('2025-09-20T16:30:00+08:00'),
         endTime: new Date('2025-09-20T17:30:00+08:00'),
       },
@@ -586,17 +586,17 @@ export const f1_2025_races = [
     hasSprint: false,
     sessions: [
       {
-        name: 'Practice 1',
+        name: 'Free Practice 1',
         startTime: new Date('2025-10-03T17:30:00+08:00'),
         endTime: new Date('2025-10-03T18:30:00+08:00'),
       },
       {
-        name: 'Practice 2',
+        name: 'Free Practice 2',
         startTime: new Date('2025-10-03T21:00:00+08:00'),
         endTime: new Date('2025-10-03T22:00:00+08:00'),
       },
       {
-        name: 'Practice 3',
+        name: 'Free Practice 3',
         startTime: new Date('2025-10-04T17:30:00+08:00'),
         endTime: new Date('2025-10-04T18:30:00+08:00'),
       },
@@ -620,7 +620,7 @@ export const f1_2025_races = [
     hasSprint: true,
     sessions: [
       {
-        name: 'Practice 1',
+        name: 'Free Practice 1',
         startTime: new Date('2025-10-18T01:30:00+08:00'),
         endTime: new Date('2025-10-18T02:30:00+08:00'),
       },
@@ -654,17 +654,17 @@ export const f1_2025_races = [
     hasSprint: false,
     sessions: [
       {
-        name: 'Practice 1',
+        name: 'Free Practice 1',
         startTime: new Date('2025-10-25T02:30:00+08:00'),
         endTime: new Date('2025-10-25T03:30:00+08:00'),
       },
       {
-        name: 'Practice 2',
+        name: 'Free Practice 2',
         startTime: new Date('2025-10-25T06:00:00+08:00'),
         endTime: new Date('2025-10-25T07:00:00+08:00'),
       },
       {
-        name: 'Practice 3',
+        name: 'Free Practice 3',
         startTime: new Date('2025-10-26T17:01:30+08:00'),
         endTime: new Date('2025-10-26T02:30:00+08:00'),
       },
@@ -688,7 +688,7 @@ export const f1_2025_races = [
     hasSprint: true,
     sessions: [
       {
-        name: 'Practice 1',
+        name: 'Free Practice 1',
         startTime: new Date('2025-11-07T22:30:00+08:00'),
         endTime: new Date('2025-11-07T23:30:00+08:00'),
       },
@@ -722,17 +722,17 @@ export const f1_2025_races = [
     hasSprint: false,
     sessions: [
       {
-        name: 'Practice 1',
+        name: 'Free Practice 1',
         startTime: new Date('2025-11-21T08:30:00+08:00'),
         endTime: new Date('2025-11-21T09:30:00+08:00'),
       },
       {
-        name: 'Practice 2',
+        name: 'Free Practice 2',
         startTime: new Date('2025-11-21T12:00:00+08:00'),
         endTime: new Date('2025-11-21T13:00:00+08:00'),
       },
       {
-        name: 'Practice 3',
+        name: 'Free Practice 3',
         startTime: new Date('2025-11-22T08:30:00+08:00'),
         endTime: new Date('2025-11-22T09:30:00+08:00'),
       },
@@ -756,7 +756,7 @@ export const f1_2025_races = [
     hasSprint: true,
     sessions: [
       {
-        name: 'Practice 1',
+        name: 'Free Practice 1',
         startTime: new Date('2025-11-28T21:30:00+08:00'),
         endTime: new Date('2025-11-28T22:30:00+08:00'),
       },
@@ -790,17 +790,17 @@ export const f1_2025_races = [
     hasSprint: false,
     sessions: [
       {
-        name: 'Practice 1',
+        name: 'Free Practice 1',
         startTime: new Date('2025-12-05T17:30:00+08:00'),
         endTime: new Date('2025-12-05T18:30:00+08:00'),
       },
       {
-        name: 'Practice 2',
+        name: 'Free Practice 2',
         startTime: new Date('2025-12-05T21:00:00+08:00'),
         endTime: new Date('2025-12-05T22:00:00+08:00'),
       },
       {
-        name: 'Practice 3',
+        name: 'Free Practice 3',
         startTime: new Date('2025-12-06T18:30:00+08:00'),
         endTime: new Date('2025-12-06T19:30:00+08:00'),
       },
