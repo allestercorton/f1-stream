@@ -1,6 +1,6 @@
 # F1Stream
 
-![F1Stream Preview](./frontend/public/preview.png)
+![F1Stream Preview](./frontend/public/preview-v2.png)
 
 F1Stream is an open-source web application that allows users to watch **live Formula 1 races** for free, interact in a **real-time global chat**, and stay updated with the **next race session countdown**. The project is designed with a **minimal dark mode UI**, inspired by Apple's UI/UX principles.
 
