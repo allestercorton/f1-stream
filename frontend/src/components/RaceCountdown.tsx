@@ -1,9 +1,8 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { getNextSession } from '@/utils/getNextSession';
 import { Skeleton } from './ui/skeleton';
 import { NextSession } from '@/types/race';
 
-// formats ms difference into countdown string
 const formatCountdown = (diff: number) => {
   const totalSeconds = Math.max(0, Math.floor(diff / 1000));
   const days = Math.floor(totalSeconds / 86400);
@@ -17,27 +16,52 @@ const formatCountdown = (diff: number) => {
 const RaceCountdown = () => {
   const [session, setSession] = useState<NextSession | null>(null);
   const [countdown, setCountdown] = useState('');
+  const sessionRef = useRef<NextSession | null>(null);
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      const next = getNextSession();
-      setSession(next);
+    const updateCountdown = () => {
+      const now = new Date();
 
-      if (!next) {
-        setCountdown('');
-        return;
+      let current = sessionRef.current;
+
+      // check if current session is still valid
+      if (current) {
+        const start = new Date(current.sessionStart);
+        const end = new Date(current.sessionEnd);
+
+        if (now >= start && now <= end) {
+          setCountdown('NOW');
+          return;
+        }
+
+        // session expired
+        if (now > end) {
+          sessionRef.current = null;
+          current = null;
+        }
       }
 
-      const now = new Date();
-      const sessionStart = new Date(next.sessionStart); // PHT (UTC+8)
+      // load next session if none is active
+      if (!current) {
+        const next = getNextSession();
+        sessionRef.current = next;
+        setSession(next);
 
-      // Calculate the difference in time between now and the session start
-      const countdownDiff = sessionStart.getTime() - now.getTime();
+        if (!next) {
+          setCountdown('');
+          return;
+        }
 
-      // Always show countdown to the next session
-      setCountdown(formatCountdown(countdownDiff));
-    }, 1000); // Update every second
+        current = next;
+      }
 
+      // show countdown to session start
+      const diff = new Date(current.sessionStart).getTime() - now.getTime();
+      setCountdown(formatCountdown(diff));
+    };
+
+    updateCountdown(); // initial call
+    const interval = setInterval(updateCountdown, 1000);
     return () => clearInterval(interval);
   }, []);
 

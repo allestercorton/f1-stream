@@ -13,26 +13,35 @@ const ChatBox = () => {
   const [isChatVisible, setIsChatVisible] = useState(true);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
-  // auth states
   const isAuthenticated = useAuthStore((s) => s.isAuthenticated);
   const user = useAuthStore((s) => s.user);
 
-  // scroll to latest message after render
+  // scroll to bottom if user is near bottom of the chat
   const scrollToBottom = () => {
-    requestAnimationFrame(() => {
-      messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-    });
+    if (!messagesEndRef.current) return;
+    const el = messagesEndRef.current;
+    const container = el.parentElement;
+    if (!container) return;
+
+    const isNearBottom =
+      container.scrollHeight - container.scrollTop - container.clientHeight <
+      100;
+
+    el.scrollIntoView({ behavior: isNearBottom ? 'smooth' : 'auto' });
   };
 
+  // auto-scroll to bottom when messages update and chat is open
   useLayoutEffect(() => {
     if (isChatVisible && isAuthenticated && messages.length > 0) {
-      scrollToBottom();
+      const timeout = setTimeout(scrollToBottom, 0);
+      return () => clearTimeout(timeout);
     }
   }, [messages, isChatVisible, isAuthenticated]);
 
-  // setup socket listeners
+  // on mount: fetch latest messages and listen for new ones
   useEffect(() => {
     const handleNewMessage = (msg: ChatMessage) => {
+      // limit to latest 50 messages
       setMessages((prev) => [...prev.slice(-49), msg]);
     };
 
@@ -44,12 +53,14 @@ const ChatBox = () => {
     socket.on('messages', handleInitialMessages);
     socket.on('newMessage', handleNewMessage);
 
+    // cleanup on unmount
     return () => {
       socket.off('messages', handleInitialMessages);
       socket.off('newMessage', handleNewMessage);
     };
   }, []);
 
+  // emit new message to server
   const sendMessage = () => {
     if (!text.trim() || !user) return;
 
@@ -66,12 +77,12 @@ const ChatBox = () => {
 
   return (
     <div className='flex h-full flex-col bg-black/20'>
-      {/* Header */}
+      {/* chat header with toggle */}
       <div className='border-b border-white/10 bg-black/30 px-4 py-3'>
         <div className='flex items-center justify-between'>
           <h2 className='flex items-center font-medium'>
             <div className='mr-2 h-2 w-2 animate-pulse rounded-full bg-green-500'></div>
-            Live Chat
+            live chat
           </h2>
           <button
             onClick={() => setIsChatVisible(!isChatVisible)}
@@ -87,6 +98,7 @@ const ChatBox = () => {
         </div>
       </div>
 
+      {/* chat messages and input */}
       {isChatVisible && (
         <>
           <div className='scrollbar-thin scrollbar-thumb-zinc-700 scrollbar-track-transparent flex-1 overflow-y-auto p-4'>
@@ -100,7 +112,7 @@ const ChatBox = () => {
             <div ref={messagesEndRef} />
           </div>
 
-          {/* Chat input or login prompt */}
+          {/* input box or sign in prompt */}
           {isAuthenticated ? (
             <ChatInput
               text={text}
@@ -114,7 +126,7 @@ const ChatBox = () => {
                 className='cursor-pointer text-white hover:underline'
                 aria-label='Link to sign in'
               >
-                Sign in
+                sign in
               </Link>{' '}
               <span className='text-white/50'>to join the conversation.</span>
             </div>
