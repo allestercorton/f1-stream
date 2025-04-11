@@ -1,15 +1,8 @@
 import type { MessageProps } from '@/types/message';
-import { useState } from 'react';
+import { getInitials } from '@/utils/getInitials';
+import { formatTime } from '@/utils/formatTime';
 
 const Message = ({ msg, isCurrentUser }: MessageProps) => {
-  const [imageLoaded, setImageLoaded] = useState(false);
-
-  // Format timestamp to show only hours and minutes
-  const formatTime = (dateString: string | Date) => {
-    const date = new Date(dateString);
-    return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-  };
-
   return (
     <div className={`mb-4 ${isCurrentUser ? 'ml-auto' : ''} max-w-[85%]`}>
       <div
@@ -18,15 +11,8 @@ const Message = ({ msg, isCurrentUser }: MessageProps) => {
         {/* Avatar - only shown for other users */}
         {!isCurrentUser && (
           <div className='relative flex-shrink-0'>
-            <div
-              className={`relative h-8 w-8 overflow-hidden rounded-full border border-zinc-700 ${!imageLoaded ? 'bg-zinc-800' : ''}`}
-            >
-              <img
-                src={msg.avatar || '/placeholder.svg?height=32&width=32'}
-                alt={`${msg.name}'s avatar`}
-                className={`h-full w-full object-cover transition-opacity ${imageLoaded ? 'opacity-100' : 'opacity-0'}`}
-                onLoad={() => setImageLoaded(true)}
-              />
+            <div className='flex h-8 w-8 items-center justify-center rounded-full bg-zinc-700 text-xs font-medium text-white'>
+              {getInitials(msg.name)}
             </div>
           </div>
         )}

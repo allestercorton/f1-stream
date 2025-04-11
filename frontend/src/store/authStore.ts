@@ -1,55 +1,93 @@
 import { create } from 'zustand';
+import { devtools, persist } from 'zustand/middleware';
 import toast from 'react-hot-toast';
-import { AuthState } from '@/types/auth';
-import api from '@/utils/api';
-import { AUTH_ENDPOINTS } from '@/constants/api';
+import type { AuthState } from '@/types/auth';
+import getErrorMessage from '@/utils/handleError';
+import { loginAPI, registerAPI } from '@/api/authApi';
+import { LoginFormValues, RegisterFormValues } from '@/utils/validation';
 
-export const useAuthStore = create<AuthState>((set) => ({
-  isAuthenticated: false,
+const initialState: AuthState = {
   user: null,
+  token: null,
+  isAuthenticated: false,
   isPending: false,
-  hasCheckedAuth: false,
+  error: null,
+};
 
-  // check the user's authentication status
-  checkAuthStatus: async () => {
-    try {
-      set({ isPending: true });
-      const response = await api.get(AUTH_ENDPOINTS.STATUS);
-      set({ isAuthenticated: response.data.isAuthenticated });
+export const useAuthStore = create<
+  AuthState & {
+    login: (credentials: LoginFormValues) => Promise<boolean>;
+    register: (credentials: RegisterFormValues) => Promise<boolean>;
+    logout: () => void;
+    clearError: () => void;
+  }
+>()(
+  persist(
+    devtools((set) => ({
+      ...initialState,
 
-      // if authenticated, fetch user profile
-      if (response.data.isAuthenticated) {
-        const profileResponse = await api.get(AUTH_ENDPOINTS.PROFILE);
-        set({ user: profileResponse.data });
-      }
-    } catch (error) {
-      console.error(error);
-      set({ isAuthenticated: false, user: null });
-    } finally {
-      set({ isPending: false, hasCheckedAuth: true });
-    }
-  },
+      login: async (credentials) => {
+        set({ isPending: true });
+        try {
+          const { data } = await loginAPI(credentials);
+          localStorage.setItem('token', data.token);
+          set({
+            user: data.user,
+            token: data.token,
+            isAuthenticated: true,
+            isPending: false,
+          });
+          toast.success('Welcome to F1Stream!');
+          return true;
+        } catch (error) {
+          set({ isPending: false });
+          toast.error(
+            getErrorMessage(
+              error,
+              'Login failed. Please check your credentials.',
+            ),
+          );
+          return false;
+        }
+      },
 
-  // initiate login process
-  login: () => {
-    // prevent duplicate clicks
-    if (useAuthStore.getState().isPending) return;
+      register: async (credentials) => {
+        set({ isPending: true });
+        try {
+          const { data } = await registerAPI(credentials);
+          localStorage.setItem('token', data.token);
+          set({
+            user: data.user,
+            token: data.token,
+            isAuthenticated: true,
+            isPending: false,
+          });
+          toast.success('Account created! Enjoy the race.');
+          return true;
+        } catch (error) {
+          set({ isPending: false });
+          toast.error(
+            getErrorMessage(error, 'Registration failed. Please try again.'),
+          );
+          return false;
+        }
+      },
 
-    set({ isPending: true });
-    window.location.href = AUTH_ENDPOINTS.LOGIN;
-  },
+      logout: () => {
+        localStorage.removeItem('token');
+        set(initialState);
+        toast.success('Logged out successfully.');
+      },
 
-  // handle logout
-  logout: async () => {
-    try {
-      set({ isPending: true });
-      await api.get(AUTH_ENDPOINTS.LOGOUT);
-      set({ isPending: false, isAuthenticated: false, user: null });
-      toast.success('Logged out successfully.');
-    } catch (error) {
-      set({ isPending: false });
-      console.error('Logout failed:', error);
-      toast.error('Logout failed. Please try again.');
-    }
-  },
-}));
+      clearError: () => set({ error: null }),
+    })),
+    {
+      name: 'auth-storage',
+      partialize: (state) => ({
+        user: state.user,
+        token: state.token,
+        isAuthenticated: state.isAuthenticated,
+      }),
+    },
+  ),
+);

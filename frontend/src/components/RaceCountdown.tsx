@@ -53,14 +53,14 @@ const RaceCountdown = () => {
     );
 
   return (
-    <div className='flex flex-col items-start gap-1 px-0 py-1.5 text-sm sm:flex-row sm:items-center sm:gap-0 sm:px-4'>
-      <span className='font-medium tracking-tight'>{session.grandPrix}</span>
+    <div className='flex flex-col items-center gap-1 px-0 py-1.5 text-sm font-medium sm:flex-row sm:items-center sm:gap-0 sm:px-4 md:items-start'>
+      <span className='tracking-tight'>{session.grandPrix}</span>
       <span className='hidden text-zinc-500 sm:mx-2 sm:block'>•</span>
       <div className='flex items-center gap-1.5 text-zinc-400'>
         {session.sessionName}
       </div>
       <span className='hidden text-zinc-500 sm:mx-2 sm:block'>•</span>
-      <span className='font-mono text-xs tracking-tight text-zinc-300'>
+      <span className='font-mono text-lg tracking-tight text-zinc-300 md:text-sm'>
         {countdown}
       </span>
     </div>

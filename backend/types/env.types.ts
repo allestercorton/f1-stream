@@ -2,7 +2,6 @@ export type Env = {
   server: {
     mode: string;
     port: number;
-    url: string;
   };
   client: {
     url: string;
@@ -10,14 +9,13 @@ export type Env = {
   mongo: {
     uri: string;
   };
-  google: {
-    clientID: string;
-    clientSecret: string;
+  token: {
+    jwt_secret: string;
   };
-  session: {
-    secret: string;
-    cookie: {
-      maxAge: number;
-    };
+  email: {
+    service: string;
+    from: string;
+    username: string;
+    password: string;
   };
 };

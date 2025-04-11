@@ -1,19 +1,18 @@
 export interface User {
-  _id: string;
-  googleId: string;
+  id: string;
+  name: string;
   email: string;
-  displayName: string;
-  firstName: string;
-  lastName: string;
-  profilePicture: string;
 }
 
 export interface AuthState {
-  isAuthenticated: boolean;
   user: User | null;
+  token: string | null;
+  isAuthenticated: boolean;
   isPending: boolean;
-  hasCheckedAuth: boolean;
-  checkAuthStatus: () => Promise<void>;
-  login: () => void;
-  logout: () => Promise<void>;
+  error: string | null;
+}
+
+export interface AuthResponse {
+  user: User;
+  token: string;
 }
