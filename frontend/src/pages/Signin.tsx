@@ -98,7 +98,7 @@ export default function Signin() {
 
               <FormButton name='Sign In' isPending={isPending} />
 
-              <div className='relative'>
+              {/* <div className='relative'>
                 <div className='absolute inset-0 flex items-center'>
                   <span className='w-full border-t border-white/10' />
                 </div>
@@ -107,14 +107,14 @@ export default function Signin() {
                     Or continue with
                   </span>
                 </div>
-              </div>
+              </div> */}
 
               {/* Google Sign-In Button */}
-              <button
+              {/* <button
                 type='button'
                 // onClick={handleGoogleSignIn}
                 disabled={isPending}
-                className='flex w-full items-center justify-center gap-2 rounded-md border border-white/10 bg-black px-4 py-3 text-sm font-medium text-white transition-colors hover:bg-gray-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/50 disabled:opacity-50'
+                className='flex w-full items-center justify-center gap-2 rounded-md border border-white/10 bg-black px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-gray-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/50 disabled:opacity-50'
               >
                 <svg
                   xmlns='http://www.w3.org/2000/svg'
@@ -141,7 +141,7 @@ export default function Signin() {
                   />
                 </svg>
                 Continue with Google
-              </button>
+              </button> */}
 
               <div className='text-center text-sm text-gray-400'>
                 Don't have an account?{' '}
