@@ -35,62 +35,7 @@ export default function ForgotPassword() {
 
   return (
     <>
-      {/* Metadata tags */}
-      <>
-        {/* Primary Meta Tags */}
-        <title>F1Stream - Forgot Password</title>
-        <meta
-          name='description'
-          content='Reset your password for F1Stream and regain access to your account.'
-        />
-        <link
-          rel='canonical'
-          href='https://f1stream.vercel.app/forgot-password'
-        />
-        <meta name='robots' content='noindex, follow' />
-        <meta name='theme-color' content='#000000' />
-
-        {/* Open Graph (Facebook, Messenger, etc.) */}
-        <meta property='og:title' content='F1Stream - Forgot Password' />
-        <meta
-          property='og:description'
-          content='Reset your password for F1Stream and regain access to your account.'
-        />
-        <meta
-          property='og:image'
-          content='https://f1stream.vercel.app/preview.png'
-        />
-        <meta
-          property='og:url'
-          content='https://f1stream.vercel.app/forgot-password'
-        />
-        <meta property='og:type' content='website' />
-
-        {/* Twitter Card */}
-        <meta name='twitter:card' content='summary_large_image' />
-        <meta name='twitter:title' content='F1Stream - Forgot Password' />
-        <meta
-          name='twitter:description'
-          content='Reset your password for F1Stream and regain access to your account.'
-        />
-        <meta
-          name='twitter:image'
-          content='https://f1stream.vercel.app/preview.png'
-        />
-
-        {/* JSON-LD Structured Data for Google SEO */}
-        <script type='application/ld+json'>
-          {JSON.stringify({
-            '@context': 'https://schema.org',
-            '@type': 'WebPage',
-            name: 'Forgot Password - F1Stream',
-            url: 'https://f1stream.vercel.app/forgot-password',
-            description:
-              'Reset your password for F1Stream and regain access to your account.',
-            image: 'https://f1stream.vercel.app/preview.png',
-          })}
-        </script>
-      </>
+      <title>F1Stream - Forgot Password</title>
       <div className='flex min-h-screen flex-col bg-black'>
         <Navbar />
 
