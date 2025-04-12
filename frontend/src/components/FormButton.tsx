@@ -9,7 +9,7 @@ interface FormButtonProps {
 const FormButton = ({ isPending = false, name }: FormButtonProps) => (
   <Button
     type='submit'
-    className='flex w-full items-center justify-center gap-2 bg-white text-black hover:bg-white/90'
+    className='flex w-full items-center justify-center gap-2 rounded-md bg-white px-4 py-3 text-sm font-medium text-black transition-colors hover:bg-white/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/50 disabled:opacity-50'
     disabled={isPending}
   >
     {isPending ? (

@@ -8,32 +8,23 @@
   :root {
     --background: 0 0% 0%;
     --foreground: 0 0% 98%;
-
     --card: 0 0% 3%;
     --card-foreground: 0 0% 98%;
-
     --popover: 0 0% 3%;
     --popover-foreground: 0 0% 98%;
-
     --primary: 0 0% 98%;
     --primary-foreground: 0 0% 9%;
-
     --secondary: 0 0% 14.9%;
     --secondary-foreground: 0 0% 98%;
-
     --muted: 0 0% 14.9%;
     --muted-foreground: 0 0% 63.9%;
-
     --accent: 0 0% 14.9%;
     --accent-foreground: 0 0% 98%;
-
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 0 0% 98%;
-
     --border: 0 0% 14.9%;
     --input: 0 0% 14.9%;
     --ring: 0 0% 83.9%;
-
     --radius: 0.5rem;
   }
 
@@ -41,10 +32,7 @@
   body,
   #root {
     height: 100%;
-  }
-
-  html {
-    scroll-behavior: smooth;
+    overscroll-behavior: none;
   }
 
   body {
@@ -53,11 +41,9 @@
     font-feature-settings: 'ss01', 'ss03', 'cv01', 'cv02', 'cv03', 'cv04';
     -webkit-font-smoothing: antialiased;
     min-height: 100vh;
-    overflow-x: hidden;
-    position: relative;
   }
 
-  /* Apple-inspired scrollbar */
+  /* Your Original Apple-Style Scrollbar */
   ::-webkit-scrollbar {
     width: 8px;
     height: 8px;
@@ -70,19 +56,53 @@
 
   ::-webkit-scrollbar-thumb {
     background: rgba(255, 255, 255, 0.2);
+    border-radius: 4px;
   }
 
   ::-webkit-scrollbar-thumb:hover {
     background: rgba(255, 255, 255, 0.3);
   }
-}
 
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
+  /* Firefox Scrollbar */
+  @supports (scrollbar-color: auto) {
+    * {
+      scrollbar-color: rgba(255, 255, 255, 0.2) rgba(0, 0, 0, 0.1);
+      scrollbar-width: thin;
+    }
   }
 }
 
+@layer utilities {
+  /* Scroll Containment */
+  .scroll-contain {
+    overscroll-behavior: contain;
+    contain: strict;
+  }
+
+  /* Chat Container */
+  .chat-container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    contain: strict;
+    overflow: hidden;
+  }
+
+  .chat-messages {
+    flex: 1;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-gutter: stable;
+  }
+
+  /* Transforms */
+  .transform-gpu {
+    transform: translate3d(0, 0, 0);
+    backface-visibility: hidden;
+  }
+}
+
+/* Animations */
 @keyframes bounce {
   0%,
   100% {
@@ -93,23 +113,9 @@
   }
 }
 
-.animate-bounce {
-  animation: bounce 1s infinite ease-in-out;
-}
-
-/* Optional: Add smooth transitions for the chat interface */
-.transition-all {
-  transition-property: all;
-  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-  transition-duration: 150ms;
-}
-
-/* ensure tooltips appear above everything */
-.shadcn-tooltip {
-  z-index: 9999;
-}
-
-/* Add smooth transition for chat container */
-.chat-transition {
-  transition: all 0.3s ease-in-out;
+/* Safari Fixes */
+@supports (-webkit-touch-callout: none) {
+  .chat-messages {
+    -webkit-overflow-scrolling: touch;
+  }
 }
