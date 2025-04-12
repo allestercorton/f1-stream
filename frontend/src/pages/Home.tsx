@@ -9,11 +9,13 @@ export default function Home() {
       <Navbar />
       <div className='container mx-auto mt-3 space-y-3 px-4'>
         <RaceCountdown />
-        <div className='grid h-[calc(100vh-120px)] grid-cols-1 gap-6 lg:grid-cols-3'>
-          <div className='relative h-full overflow-hidden rounded-2xl border border-white/10 bg-gray-950 lg:col-span-2'>
+        <div className='grid grid-cols-1 gap-6 lg:h-[calc(100vh-120px)] lg:grid-cols-3'>
+          {/* livestream section */}
+          <div className='relative h-[200px] overflow-hidden rounded-2xl border border-white/10 bg-gray-950 lg:col-span-2 lg:h-full'>
             <LiveStream />
           </div>
-          <div className='h-full overflow-hidden rounded-2xl border border-white/10 bg-gray-950'>
+          {/* chatbox section */}
+          <div className='h-[400px] overflow-hidden rounded-2xl border border-white/10 bg-gray-950 lg:h-full'>
             <ChatBox />
           </div>
         </div>
